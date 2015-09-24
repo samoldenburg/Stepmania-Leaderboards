@@ -59,7 +59,7 @@ class Mod extends MY_Controller {
                     'peak_nps'          => $this->input->post('peak_nps'),
                     'avg_nps'           => $this->input->post('avg_nps'),
                     'avg_weighted_nps'  => $this->input->post('avg_weighted_nps'),
-                    'difficulty_score'  => $this->input->post('difficulty_score'),
+                    'difficulty_score'  => 0, // TODO: Re-enable
                     'raw_file'          => $this->input->post('raw_file'),
                 );
                 $new_file = new Ranked_file($attributes);

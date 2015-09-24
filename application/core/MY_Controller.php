@@ -1270,7 +1270,6 @@ class MY_Controller extends CI_Controller {
 		$percentage_relevant_distributions_ceil = $this->_get_percentage_relevant_distributions($nps_ceil_distributions);
 		$this->data['percentage_relevant_distributions_ceil'] = $percentage_relevant_distributions_ceil;
 		// Column distributions for pattern analysis
-		// TODO: Implement into calculations
 		$avg_nps_factor = ($percentage_relevant_distributions_floor + $percentage_relevant_distributions_ceil) / 2;
 		$this->data['avg_nps_factor'] = $avg_nps_factor;
 		//$programmatically_derived_interval = pow(($percentage_relevant_distributions_floor + $percentage_relevant_distributions_ceil) / 2, -1) * 24;
