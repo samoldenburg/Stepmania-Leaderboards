@@ -1189,10 +1189,6 @@ class MY_Controller extends CI_Controller {
 		$this->data['trivial_sections_stamina_factor'] = $trivial_sections_stamina_factor;
 		$stamina_factor = 0.6;
 		$this->data['stamina_factor'] = $stamina_factor;
-		$stamina_normalization_factor = 0.075;
-		$this->data['stamina_normalization_factor'] = $stamina_normalization_factor;
-        $stamina_degen_factor = 1.0035;
-        $this->data['stamina_degen_factor'] = $stamina_degen_factor;
 		$cspeed_factor = 1400;
 		$this->data['cspeed_factor'] = $cspeed_factor;
 		$arrow_pixel_offset = 400;
