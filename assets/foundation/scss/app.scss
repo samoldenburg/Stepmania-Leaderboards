@@ -1,0 +1,669 @@
+@import "settings";
+@import "foundation";
+
+// Or selectively include components
+// @import
+//   "foundation/components/accordion",
+//   "foundation/components/alert-boxes",
+//   "foundation/components/block-grid",
+//   "foundation/components/breadcrumbs",
+//   "foundation/components/button-groups",
+//   "foundation/components/buttons",
+//   "foundation/components/clearing",
+//   "foundation/components/dropdown",
+//   "foundation/components/dropdown-buttons",
+//   "foundation/components/flex-video",
+//   "foundation/components/forms",
+//   "foundation/components/grid",
+//   "foundation/components/inline-lists",
+//   "foundation/components/joyride",
+//   "foundation/components/keystrokes",
+//   "foundation/components/labels",
+//   "foundation/components/magellan",
+//   "foundation/components/orbit",
+//   "foundation/components/pagination",
+//   "foundation/components/panels",
+//   "foundation/components/pricing-tables",
+//   "foundation/components/progress-bars",
+//   "foundation/components/reveal",
+//   "foundation/components/side-nav",
+//   "foundation/components/split-buttons",
+//   "foundation/components/sub-nav",
+//   "foundation/components/switches",
+//   "foundation/components/tables",
+//   "foundation/components/tabs",
+//   "foundation/components/thumbs",
+//   "foundation/components/tooltips",
+//   "foundation/components/top-bar",
+//   "foundation/components/type",
+//   "foundation/components/offcanvas",
+//   "foundation/components/visibility";
+@import "compass/css3/images";
+
+// General styles
+body {
+    background-color: #2c5b56; // Old browsers
+    @include background(radial-gradient(to bottom left, ellipse cover, #2c5b56 0%, #293632 50%, #141514 100%));
+    background-attachment: fixed;
+}
+
+.title-area img {
+    position: relative;
+    top: -3px;
+}
+
+nav.top-bar {
+    background: rgba(0,0,0,0.2);
+}
+
+.top-bar .right form input {
+    display: block;
+    float: left;
+    width: 33%;
+    margin-right: 3%;
+}
+
+.top-bar .right form input[type="submit"] {
+    width: 25%;
+}
+
+.top-bar .right .no-bg {
+    background: transparent;
+}
+
+div.row#main {
+  max-width: 80rem;
+  background: rgba(0,0,0,0.1);
+  padding: 50px rem-calc(30);
+}
+
+.button {
+    outline: none;
+}
+
+input#upload {
+    display: none;
+}
+
+// Menu styles
+section.top-bar-section ul li {
+    background-color: rgba(0,0,0,0);
+    transition: background-color 0.5s ease;
+}
+
+section.top-bar-section ul li:hover {
+    background-color: rgba(0,0,0,0.3);
+}
+
+.top-bar .left > li:nth-child(1) {
+    border-bottom: 2px solid #334D5C;
+}
+
+.top-bar .left > li:nth-child(2) {
+    border-bottom: 2px solid #45B29D;
+}
+
+.top-bar .left > li:nth-child(3) {
+    border-bottom: 2px solid #EFC94C;
+}
+
+.top-bar .left > li:nth-child(4) {
+    border-bottom: 2px solid #E27A3F;
+}
+
+.top-bar .left > li:nth-child(5) {
+    border-bottom: 2px solid #DF5A49;
+}
+
+.top-bar-section ul li > a {
+    transition: background-color 0.25s ease;
+}
+
+#tnav .top-bar-section .right .red-cta a {
+    background-color: $alert-color;
+}
+
+#tnav .top-bar-section .right .red-cta a:hover {
+    background-color: scale-color($alert-color, $lightness: -30%);
+}
+
+#tnav .top-bar-section .right .ora-cta a {
+    background-color: $warning-color;
+}
+
+#tnav .top-bar-section .right .ora-cta a:hover {
+    background-color: scale-color($warning-color, $lightness: -30%);
+}
+
+.top-bar-section .dropdown {
+    box-shadow: 0px 16px 20px rgba(0,0,0,0.5);
+}
+
+span.alert-count {
+    display: inline-block;
+    padding: 0px;
+    background: rgba(255,255,255,0.1);
+    line-height: 20px;
+    width: 20px;
+    border-radius: 100%;
+    text-align: center;
+}
+
+
+// File Parser Styles
+
+.alert-box h4 {
+	color: #ffffff;
+}
+
+#graph {
+    height: 400px;
+    width: 970px;
+    position: relative;
+    padding: 0;
+    margin: 0 auto 150px auto;
+}
+
+#graph .bar {
+	background-image: url("/assets/img/graph-gradient.png");
+	background-position: bottom left;
+	float: left;
+	box-sizing: border-box;
+	border-collapse: collapse;
+	position: absolute;
+	bottom: 0;
+}
+
+#graph .bar:hover {
+	background: #803434;
+}
+
+#ll-shell {
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+
+#bl-shell {
+	width: 100%;
+	height: 100%;
+}
+
+#left-legend {
+	position: absolute;
+	height: 100%;
+	width: 100px;
+	left: -100px;
+}
+
+#left-legend .left-legend {
+	position: absolute;
+	width: 100%;
+	font-size: 0.8em;
+	color: #999999;
+	padding-bottom: 5px;
+	border-bottom: 1px dashed #cccccc;
+}
+
+#bottom-legend {
+	position: absolute;
+	height: 50px;
+	bottom: -55px;
+	width: 100%;
+}
+
+#bottom-legend .bottom-legend {
+	position: absolute;
+	height: 100%;
+	width: 100px;
+	font-size: 0.8em;
+	color: #999999;
+	padding-left: 5px;
+	border-left: 1px dashed #cccccc;
+		line-height: 90px;
+}
+div#average-legend {
+	position: absolute;
+	z-index: 999;
+	border-bottom: 1px solid red;
+	width: 100%;
+	color: red;
+	height: 20px;
+	font-size: 0.8em;
+	background: rgba(255,255,255,0.5);
+}
+input#upload {
+	background: #fff;
+	padding: 20px;
+	border: 1px solid #ccc;
+	box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+#upload:focus {
+	background: #fafafa;
+	border-color: #999;
+	outline: none;
+}
+
+div#file-preview-box {
+    width: 970px;
+	height: 730px;
+	background: black;
+	overflow-y: hidden;
+	position: relative;
+    transform: scale(0.5) translateX(-50%) translateY(-50%);
+}
+
+i.receptor-sprite {
+	background: url("/assets/img/noteskins/wafles4_receptors.png");
+	width: 128px;
+	height: 128px;
+	position: absolute;
+	z-index: 11;
+}
+
+i.receptor-sprite.left {
+	background-position: 0px 0px;
+	left: 190px;
+	top: 25px;
+	transform: rotate(90deg);
+}
+
+i.receptor-sprite.down {
+	background-position: 0px 0px;
+	left: 340px;
+	top: 25px;
+}
+
+i.receptor-sprite.up {
+	background-position: 0px 0px;
+	left: 490px;
+	top: 25px;
+	transform: rotate(180deg);
+}
+
+i.receptor-sprite.right {
+	background-position: 0px 0px;
+	left: 640px;
+	top: 25px;
+	transform: rotate(-90deg);
+}
+
+#arrows {
+	width: 100%;
+	height: 730px;
+	overflow-y: scroll;
+	overflow-x: hidden;
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 10;
+	pointer-events: none;
+}
+
+div#arrows::-webkit-scrollbar {
+    display: none;
+}
+
+#arrow-scroll-box .arrow {
+	width: 128px;
+	height: 128px;
+	position: absolute;
+	z-index: 1;
+	background-image: url("/assets/img/noteskins/wafles4_notes.png");
+}
+
+.arrow.left {
+	transform: rotate(90deg);
+	left: 190px;
+}
+
+.arrow.down {
+	transform: rotate(0deg);
+	left: 340px;
+}
+
+.arrow.up {
+	transform: rotate(180deg);
+	left: 490px;
+}
+
+.arrow.right {
+	transform: rotate(-90deg);
+	left: 640px;
+}
+
+.arrow.red {
+	background-position: 0px 0px;
+}
+
+.arrow.blue {
+	background-position: 0px -128px;
+}
+
+.arrow.purple {
+	background-position: 0px -256px;
+}
+
+.arrow.yellow {
+	background-position: 0px -384px;
+}
+
+.arrow.pink {
+	background-position: 0px -512px;
+}
+
+.arrow.orange {
+	background-position: 0px -640px;
+}
+
+.arrow.teal {
+	background-position: 0px -768px;
+}
+
+.arrow.grey {
+	background-position: 0px -896px;
+}
+
+div#arrow-mask {
+	position: absolute;
+	width: 100%;
+	background: #000;
+	height: 90px;
+	z-index: 11;
+	top: 0;
+	left: 0;
+}
+
+.receptor-lights {
+	background: url("/assets/img/noteskins/explosion.png");
+	width: 128px;
+	height: 128px;
+	position: absolute;
+	top: 25px;
+	opacity: 0;
+	z-index: 99;
+	background-position: -22px -22px;
+	transition: opacity 0.05s ease;
+}
+
+.receptor-lights.left {
+	left: 190px;
+}
+
+.receptor-lights.left {
+	transform: rotate(90deg);
+	left: 190px;
+}
+
+.receptor-lights.down {
+	transform: rotate(0deg);
+	left: 340px;
+}
+
+.receptor-lights.up {
+	transform: rotate(180deg);
+	left: 490px;
+}
+
+.receptor-lights.right {
+	transform: rotate(-90deg);
+	left: 640px;
+}
+
+.receptor-lights.bright {
+	opacity: 1;
+	transition: opacity 0.05s ease;
+}
+
+div#control-buttons {
+    margin-top: -361px;
+}
+
+textarea#raw_file, textarea#enumerated_file {
+    min-height: 200px;
+}
+
+// Pack Table
+// Song Table
+div#pack-table_info,
+div#pack-single-table_info {
+    display: none;
+}
+
+#pack-table_filter input[type="search"],
+#pack-single-table_filter input[type="search"],
+#song-table_filter input[type="search"],
+#user-scores-table_filter input[type="search"],
+#chart-scores-table_filter input[type="search"],
+#rank-table_filter input[type="search"] {
+    max-width: 300px;
+}
+
+th {
+    outline: none;
+}
+
+th.sorting, th.sorting_desc, th.sorting_asc {
+    cursor: pointer;
+}
+
+table#pack-table,
+table#pack-single-table,
+table#song-table,
+table#user-scores-table,
+table#chart-scores-table,
+table#pending-scores-table,
+table#auto-file-type {
+    width: 100%;
+}
+
+.diff-display-shell {
+    margin-bottom: -5px;
+}
+
+div#song-table_filter {
+    display: none;
+}
+
+div#user-scores-table_length,
+div#chart-scores-table_length,
+div#rank-table_length,
+div#auto-file-type_length {
+    display: none;
+}
+
+div#song-table_length {
+    display: none;
+}
+
+.fi-play.rotate180 {
+    transform: rotate(180deg);
+}
+
+.dataTables_paginate .button {
+    margin-right: 10px;
+    padding: 10px 20px;
+    font-size: 0.9rem;
+}
+
+
+table.dataTable thead .sorting,
+table.dataTable thead .sorting_asc,
+table.dataTable thead .sorting_desc,
+table.dataTable thead .sorting_asc_disabled,
+table.dataTable thead .sorting_desc_disabled {
+    background-repeat: no-repeat;
+    background-position: 85% center;
+}
+
+table.dataTable thead .sorting {
+}
+
+table.dataTable thead .sorting_asc {
+    background-image: url("/assets/img/sort_asc.png");
+}
+
+table.dataTable thead .sorting_desc {
+    background-image: url("/assets/img/sort_desc.png");
+}
+
+table.dataTable thead .sorting_asc_disabled {
+    background-image: url("/assets/img/sort_asc.png");
+}
+
+table.dataTable thead .sorting_desc_disabled {
+    background-image: url("/assets/img/sort_desc.png");
+}
+
+// Batch recalculate
+@-webkit-keyframes GradientBG {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+
+@-moz-keyframes GradientBG {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+
+@keyframes GradientBG {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+
+.progress .meter {
+    background: linear-gradient(270deg, #45b29d, #e27a3f);
+    background-size: 400% 400%;
+
+    -webkit-animation: GradientBG 2s ease infinite;
+    -moz-animation: GradientBG 2s ease infinite;
+    animation: GradientBG 2s ease infinite;
+}
+
+// Home page announcements
+.announcement p:first-of-type {
+    margin-top: 20px;
+}
+
+.announcement h4 {
+    background: rgba(0,0,0,0.3);
+    padding: 5px 10px;
+}
+
+.label a {
+    color: #fff;
+}
+
+.label a:hover {
+    color: rgba(255,255,255,0.75);
+}
+
+.announcement .label {
+    float: left;
+}
+
+// Home page leaderboard
+table#home-top-10 {
+    width: 100%;
+}
+
+// Home page chatbox
+div#chat-box {
+    background: rgba(0,0,0,0.5);
+    height: 400px;
+    margin-bottom: 20px;
+    position: relative;
+    overflow-y: scroll;
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+#chat-box .chat-row .message {
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    padding-left: 1rem;
+}
+
+// Datepicker
+.datepicker table td, .datepicker table th {
+    color: #333333;
+}
+
+// File preview
+#image-preview img {
+    max-width: 800px;
+    height: auto;
+}
+
+div#profile-screenshot-gallery {
+    max-width: 800px;
+    margin-bottom: 20px;
+}
+
+.slider.slider-nav.slick-initialized.slick-slider {
+    margin-top: 20px;
+}
+
+.slick-slide {
+    margin: 0 0.25rem;
+    outline: none !important;
+}
+
+.slider-nav .slick-current {
+    box-shadow: 0px 0px 5px $primary-color;
+}
+
+// Tabs
+ul.tabs.vertical {
+    margin-right: 1.25rem;
+}
+
+.tabs-content {
+    margin-top: -1rem;
+}
+
+// CHat emotes
+img.emote {
+    max-height: 32px;
+    vertical-align: middle;
+    width: auto;
+}
+
+// Mod added charts
+#suggest-table tr.added,
+#pending-scores-table tr.approved {
+    background: scale-color($primary-color, $lightness: -80%);
+}
+
+#suggest-table tr.rejected,
+#pending-scores-table tr.rejected {
+    background: scale-color($alert-color, $lightness: -80%);
+}
+
+#pending-scores-table tr.below_aa {
+    background: scale-color($warning-color, $lightness: -80%);
+}
+
+table#suggest-table tr th:nth-child(8),
+table#suggest-table tr td:nth-child(8) {
+    width: 16%;
+}
+
+table#pending-scores-table tr th:nth-child(1),
+table#pending-scores-table tr td:nth-child(1) {
+    width: 23%;
+}
+
+.s-p {
+    font-size: 0.8rem;
+}
+
+#stream-shell .columns {
+    padding-left: 0;
+    padding-right: 1.875rem;
+}
