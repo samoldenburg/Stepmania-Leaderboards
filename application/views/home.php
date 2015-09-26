@@ -1,6 +1,6 @@
 <div class="row">
     <div class="large-8 columns">
-        <?php if (!empty($streams)) : ?>
+        <?php /* if (!empty($streams)) : ?>
             <h3>Streams</h3>
             <div id="stream-shell">
                 <?php $c = 0; ?>
@@ -17,7 +17,7 @@
                     <div class="stream large-2 columns"><br /></div>
                 <?php endfor; ?>
             </div>
-        <?php endif; ?>
+        <?php endif; */ ?>
         <h3 style="clear: both;">Announcements</h3>
         <?php foreach ($announcements as $announcement) : ?>
             <div class="announcement">
