@@ -1224,8 +1224,8 @@ class MY_Controller extends CI_Controller {
 			$relevant_sections_stamina_factor = 1.0052 + (1 - (pow($calculated_difficulty_x, -0.0001)));
 			$trivial_sections_stamina_factor = 1.005 + (1 - (pow($calculated_difficulty_x, -0.0001))); // - (1 - (pow($calculated_difficulty_x, -0.01)))
 		}
-		echo "RSSF: " . $relevant_sections_stamina_factor . "<br />";
-		echo "TSSF: " . $trivial_sections_stamina_factor . "<br />";
+		#echo "RSSF: " . $relevant_sections_stamina_factor . "<br />";
+		#echo "TSSF: " . $trivial_sections_stamina_factor . "<br />";
 
 
 		// Need a non-zero average. This should inflate the average to only the actual difficult stuff stamina cares about.
@@ -1246,10 +1246,10 @@ class MY_Controller extends CI_Controller {
 
 			if ($running_factor < 1)
 				$running_factor = 1;
-			echo $running_factor . "<br />";
+			#echo $running_factor . "<br />";
 		}
 		$running_factor = pow($running_factor, 0.175);
-		echo $running_factor . "<br />";
+		#echo $running_factor . "<br />";
 		// We need to normalize back down, or this value can get out of hand.
 		return $running_factor;
 	}
