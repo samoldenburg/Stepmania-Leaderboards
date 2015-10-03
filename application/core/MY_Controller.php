@@ -1197,7 +1197,7 @@ class MY_Controller extends CI_Controller {
 				if ($run_percent > 1)
 					$run_percent = 1;
 
-				if ($adj_value == 0) // shit goes wack if this is true
+				if ($adj_value == 0) // shit goes wack if this is true, div/0 and whatnot
 					$total_run_points += $interval['dance_points'];
 				else
 					$total_run_points += $run_percent * $interval['dance_points'];
@@ -1216,16 +1216,19 @@ class MY_Controller extends CI_Controller {
 	}
 
 	protected function _get_new_stamina_multiplier($simple_expected_difficulty_array, $calculated_difficulty_x) {
+		// if difficulty is zero the below algorithm will cause INF, so avoid that..
 		if ($calculated_difficulty_x <= 0) {
 			$relevant_sections_stamina_factor = 1.005;
-			$trivial_sections_stamina_factor = 1.003;
+			$trivial_sections_stamina_factor = 1.004;
 		} else {
-			$relevant_sections_stamina_factor = 1.005 + (1 - (pow($calculated_difficulty_x, -0.0001)));
-			#echo "RSSF: " . $relevant_sections_stamina_factor . "<br />";
-			$trivial_sections_stamina_factor = 1.003 + (1 - (pow($calculated_difficulty_x, -0.0001))); // - (1 - (pow($calculated_difficulty_x, -0.01)))
-			#echo "TSSF: " . $trivial_sections_stamina_factor . "<br />";
+			$relevant_sections_stamina_factor = 1.0052 + (1 - (pow($calculated_difficulty_x, -0.0001)));
+			$trivial_sections_stamina_factor = 1.005 + (1 - (pow($calculated_difficulty_x, -0.0001))); // - (1 - (pow($calculated_difficulty_x, -0.01)))
 		}
+		echo "RSSF: " . $relevant_sections_stamina_factor . "<br />";
+		echo "TSSF: " . $trivial_sections_stamina_factor . "<br />";
 
+
+		// Need a non-zero average. This should inflate the average to only the actual difficult stuff stamina cares about.
 		$expected_difficulties_non_zero = array();
 		foreach ($simple_expected_difficulty_array as $interval) {
 			if ($interval['expected_difficulty'] > 0)
@@ -1243,9 +1246,12 @@ class MY_Controller extends CI_Controller {
 
 			if ($running_factor < 1)
 				$running_factor = 1;
-			#echo $running_factor . "<br />";
+			echo $running_factor . "<br />";
 		}
-		return pow($running_factor, 0.15);
+		$running_factor = pow($running_factor, 0.175);
+		echo $running_factor . "<br />";
+		// We need to normalize back down, or this value can get out of hand.
+		return $running_factor;
 	}
 
 	protected function _process_everything($f = null, $r = null, $user_score_goal = null) {
