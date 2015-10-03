@@ -1,6 +1,6 @@
 <p>
     Use this tool after the file parsing algorithm has been updated to recalculate all difficulties as needed.<br />
-    <em><strong>This tool is currently disabled.</strong></em>
+    <a href="#" class="button primary" id="recalculate">Recalculate</a>
 </p>
 <p id="ctime">
 </p>

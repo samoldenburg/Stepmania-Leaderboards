@@ -356,7 +356,7 @@
 	if ($show_tests) : ?>
     <h2>Raw File</h2>
     <pre style="font-size: 11px; line-height: 1.2em; max-height: 200px; overflow: auto;"><?php print_r($file);?></pre>
-	<?php /*
+
 		<h2>Notes</h2>
 		<pre style="font-size: 11px; line-height: 1.2em; max-height: 200px; overflow: auto;"><?php print_r($notes);?></pre>
 		<h2>Processed Notes Iteration #1 (Measures)</h2>
@@ -366,11 +366,10 @@
 		<h2>Processed Notes Iteration #3 (Enumerated Beats)</h2>
 		<pre style="font-size: 11px; line-height: 1.2em; max-height: 400px; overflow: auto;"><?php print_r($processed['enumerated']);?></pre>
 
-	*/?>
-    <?php /*
+
 		<h2>Processed Notes Iteration #4 (Enumerated with Timings)</h2>
 		<pre style="font-size: 11px; line-height: 1.2em; max-height: 400px; overflow: auto;"><?php print_r($filled_distances);?></pre>
-
+<?php /*
 		<h1>Difficulty Relevant Array Outputs</h1>
 		<h2><?=$programmatically_derived_interval;?>s Column Distributions</h2>
 		<pre style="font-size: 11px; line-height: 1.2em; max-height: 400px; overflow: auto;"><?php print_r($column_distributions_auto);?></pre>

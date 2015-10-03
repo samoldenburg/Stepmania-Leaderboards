@@ -1,12 +1,8 @@
-<p>Submit a .sm file, cool stuff might happen.</p>
-<p>
-	Coded by Wafles<br />
-	Pattern Analysis theory and formula help from MinaciousGrace
-</p>
+<p>Select a .sm file, or paste the full .sm contents into the textarea below. Full file analysis and a difficulty algorithm will be run against the file submitted and returned for your reference. This is not a submission form to have something ranked on the site. <a href="/charts/suggest">Click here to suggest a file to be ranked.</a></p>
 <ul class="disc" style="color:#999999;">
 	<li>SM Files Only. DWI, DS, SSC are not supported at this time.</li>
 	<li>Only the first difficulty in the file will be analyzed.</li>
-	<li>Mines and holds will be ignored. Holds will be counted for DP adjustments.</li>
+	<li>Mines will be ignored. Holds will be counted for DP adjustments but will not display in the preview window.</li>
 </ul>
 <?php if ($error) : ?>
     <div data-alert class="alert-box alert">

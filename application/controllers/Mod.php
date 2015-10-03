@@ -59,7 +59,7 @@ class Mod extends MY_Controller {
                     'peak_nps'          => $this->input->post('peak_nps'),
                     'avg_nps'           => $this->input->post('avg_nps'),
                     'avg_weighted_nps'  => $this->input->post('avg_weighted_nps'),
-                    'difficulty_score'  => 0, // TODO: Re-enable
+                    'difficulty_score'  => $this->input->post('difficulty_score'),
                     'raw_file'          => $this->input->post('raw_file'),
                 );
                 $new_file = new Ranked_file($attributes);
@@ -113,7 +113,7 @@ class Mod extends MY_Controller {
                 $this->data['chart']->peak_nps            = $this->input->post('peak_nps');
                 $this->data['chart']->avg_nps             = $this->input->post('avg_nps');
                 $this->data['chart']->avg_weighted_nps    = $this->input->post('avg_weighted_nps');
-                $this->data['chart']->difficulty_score    = 0; // TODO: Re-enable: $this->input->post('difficulty_score');
+                $this->data['chart']->difficulty_score    = $this->input->post('difficulty_score');
                 $this->data['chart']->raw_file            = $this->input->post('raw_file');
 
                 $this->data['chart']->save();

@@ -86,13 +86,13 @@
     </div>
     <div class="content" id="panel31">
         <p>
-            File difficulty calculations and general site help from Minacious Grace.
+            Site designed and developed by Sam "Wafles" Oldenburg. &copy;<?=date('Y');?>. All rights reserved.
         </p>
         <p>
             Some graphical assets courtesy of Kraezymann.
         </p>
         <p>
-            Site designed and developed by Wafles.
+            Major props and credit to the many mods that have ranked over 5,000 files here. Without you all this site wouldn't nearly be as cool.
         </p>
     </div>
 </div>

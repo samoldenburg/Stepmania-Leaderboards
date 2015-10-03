@@ -160,8 +160,9 @@ class MY_Controller extends CI_Controller {
 			  		$notes_started = true;
 			}
 			// mark eof found
-			if ($line == ";" && $notes_started) {
+			if (trim($line) == ";" && $notes_started) {
 				$eof_found = true;
+				break;
 			}
 			if (strlen($line) == 4 && !$eof_found) {
 				// noteline
@@ -311,33 +312,6 @@ class MY_Controller extends CI_Controller {
 		$stop_pointer = 0;
 		$filtered = array();
 		foreach ($enumerated_beats as $beat => $line) {
-			/*
-				measure
-				beat
-				bpm
-				note denomination
-				cumulative time
-				ms interval for the row
-				left down up right
-				left ms
-				down ms
-				up ms
-				right ms
-				left last
-				down last
-				up last
-				right last
-				lefthandlast
-				righthandlast
-				tap type
-				singles jumps hands quads
-				lefthandjump
-				righthandjump
-				left down up right freezes
-				total points left hand
-				total points right hand
-				total points for the row
-			*/
 			$filtered[$beat]['measure'] = floor(floor($beat) / 4);
 			$filtered[$beat]['beat'] = floor($beat);
 			$filtered[$beat]['bpm'] = "";
@@ -484,6 +458,7 @@ class MY_Controller extends CI_Controller {
 		$current_interval['right_hand_jumps'] = 0;
 		$current_interval['left_hand_taps'] = 0;
 		$current_interval['right_hand_taps'] = 0;
+		$current_interval['split_hand_density'] = 0;
 		$timings['left'] = array();
 		$timings['down'] = array();
 		$timings['up'] = array();
@@ -505,7 +480,7 @@ class MY_Controller extends CI_Controller {
 		$current_interval['interval_type'] = "undetermined";
 		// This is just me being lazy
 		$simple_difficulty_array = array();
-		$simple_sekrit_array = array();
+
 		foreach ($enumerated_beats_with_timing as $beat => $noteline) {
 			if ($current_second >= $next_break) {
 				$next_break += $interval;
@@ -631,7 +606,7 @@ class MY_Controller extends CI_Controller {
 				// roll is our base multiplier, all other patterns should be higher than that
 				// first we'll factor hand bias
 				$hand_coefficient = $current_interval['coefficient_of_variation'];
-				$hand_factor = (pow((0.88 * $hand_coefficient), 2) - (0.26 * hand_coefficient) + 0.0838) + 1;
+				$hand_factor = (pow((0.88 * $hand_coefficient), 2) - (0.26 * $hand_coefficient) + 0.0838) + 1;
 				$current_interval['hand_factor'] = $hand_factor;
 				$anchor_index = $max_finger / (array_sum($nps) / count($nps));
 				$current_interval['anchor_index'] = $anchor_index;
@@ -655,22 +630,17 @@ class MY_Controller extends CI_Controller {
 				$current_interval['right_hand_jump_index'] = $right_hand_jump_index;
 				#$current_interval['nps_factored_with_pattern_analysis'] = ($hand_factor * $hand_factor_weight) * ($anchor_index * $anchor_index_weight) * ($one_hand_index_left * $one_hand_index_weight) * ($one_hand_index_right * $one_hand_index_weight);
 
+				// hand mod strikes, adding in additional weight for jumps
+				$current_interval['left_mod_strikes'] = ($current_interval['left_hand_taps'] + ($current_interval['left_hand_jumps'] * 0.5)) * (1/(pow($current_interval['cv_left_hand'], -0.05)));
+				$current_interval['right_mod_strikes'] = ($current_interval['right_hand_taps'] + ($current_interval['right_hand_jumps'] * 0.5)) * (1/(pow($current_interval['cv_right_hand'], -0.05)));
+
 
 				// "if this file was evenly difficult on both hands for the whole file, taking all the hardest hands, how many strikes per second would it be"
-				$current_interval['nps_factored_with_pattern_analysis'] = $current_interval['max_strikes'];
+				$current_interval['max_mod_strikes'] = max($current_interval['left_mod_strikes'], $current_interval['right_mod_strikes']);
+				$current_interval['nps_factored_with_pattern_analysis'] = $current_interval['max_mod_strikes'];
 				if (is_infinite($current_interval['nps_factored_with_pattern_analysis']))
 					$current_interval['nps_factored_with_pattern_analysis'] = 0;
-				$current_interval['expected_difficulty'] = $current_interval['nps_factored_with_pattern_analysis'];
-				array_push($simple_sekrit_array, $super_sekrit_mystery_number);
-				array_push($simple_difficulty_array, $current_interval['nps_factored_with_pattern_analysis']);
-				$current_interval['full_sekrit_array'] = $simple_sekrit_array;
-				$current_interval['full_difficulty_array'] = $simple_difficulty_array;
-
-
-
-
-
-
+				$current_interval['expected_difficulty'] = $current_interval['max_mod_strikes'] + ($current_interval['split_hand_density'] * 0.33);
 
 
 
@@ -696,6 +666,7 @@ class MY_Controller extends CI_Controller {
 				$left_hand_notes = 0;
 				$right_hand_notes = 0;
 				$jack_density = 0;
+				$current_interval['split_hand_density'] = 0;
 				$previous_note['left'] = false;
 				$previous_note['down'] = false;
 				$previous_note['up'] = false;
@@ -793,6 +764,15 @@ class MY_Controller extends CI_Controller {
 			if ($noteline['righthandjump'] == 1) {
 				$current_interval['right_hand_jumps']++;
 			}
+
+			// split_hand_density
+			if (($noteline['left'] >= 1 && $noteline['up'] >=1) ||
+				($noteline['left'] >= 1 && $noteline['right'] >=1) ||
+				($noteline['down'] >= 1 && $noteline['up'] >=1) ||
+				($noteline['down'] >= 1 && $noteline['right'] >=1)) {
+				$current_interval['split_hand_density']++;
+			}
+
 			if ($last['left'] == $current_second || $last['down'] == $current_second) {
 				$last_left_hand = $current_second - max(array($last_left_copy, $last_down_copy));
 				array_push($timings_hands['left'], ($last_left_hand * 1000));
@@ -838,6 +818,7 @@ class MY_Controller extends CI_Controller {
 			} else {
 				$running_total_factor /= $trivial_sections_stamina_factor;
 			}
+			#echo $running_total_factor . "<br />";
 			if ($running_total_factor < 1)
 				$running_total_factor = 1;
 		}
@@ -1150,6 +1131,90 @@ class MY_Controller extends CI_Controller {
 		*/
 		return $total_diffs / $total_freq;
 	}
+
+	// NEW CALCULATIONS START HERE
+	protected function _get_simple_expected_difficulty_array($column_distributions) {
+		$simple_array = array();
+		foreach($column_distributions as $val) {
+			$interval_array = array();
+			$interval_array['expected_difficulty'] = $val['expected_difficulty'];
+			$interval_array['dance_points'] = $val['points'];
+
+
+			array_push($simple_array, $interval_array);
+		}
+		return $simple_array;
+	}
+
+	protected function _get_expected_user_skill_result($simple_expected_difficulty_array, $target_grade, $total_dance_points) {
+		// This is a poor man's binary search, I think it has to be this way since we don't have any clue where to actually start.
+		// Theoretical max here would be like 29.99, though that would be still only 30 runs to do, versus 2,999.
+		// Step uno, +10
+		$initial_x = 0;
+		$step_x = 10;
+		$result_grade = 0;
+		$result_x = $this->_test_user_run($simple_expected_difficulty_array, $target_grade, $initial_x, $step_x, $total_dance_points);
+		#echo "R1: " . $result_x . "<br />";
+
+		// Step dos, +1
+		$initial_x = (($result_x - $step_x) > 0)  ? ($result_x - $step_x) : 0;
+		$step_x = 1;
+		$result_grade = 0;
+		$result_x = $this->_test_user_run($simple_expected_difficulty_array, $target_grade, $initial_x, $step_x, $total_dance_points);
+		#echo "R2: " . $result_x . "<br />";
+
+		// Step tres, +.1
+		$initial_x = (($result_x - $step_x) > 0)  ? ($result_x - $step_x) : 0;
+		$step_x = 0.1;
+		$result_grade = 0;
+		$result_x = $this->_test_user_run($simple_expected_difficulty_array, $target_grade, $initial_x, $step_x, $total_dance_points);
+		#echo "R3: " . $result_x . "<br />";
+
+		// Step final, +.01
+		$initial_x = (($result_x - $step_x) > 0)  ? ($result_x - $step_x) : 0;
+		$step_x = 0.01;
+		$result_grade = 0;
+		$result_x = $this->_test_user_run($simple_expected_difficulty_array, $target_grade, $initial_x, $step_x, $total_dance_points);
+		#echo "R4: " . $result_x . "<br />";
+
+		return $result_x;
+	}
+
+	// return value is total_run_points
+	protected function _test_user_run($simple_expected_difficulty_array, $target_grade, $initial_x, $step_x, $total_dance_points) {
+		$x = $initial_x;
+		$force_quit = 0;
+		$result_grade = 0;
+		while ($result_grade < $target_grade) {
+			if ($force_quit > 10000)
+				break;
+
+			$total_run_points = 0;
+			foreach ($simple_expected_difficulty_array as $interval) {
+				$adj_value = 2 * $interval['expected_difficulty'];
+				$run_percent = (pow($x / $adj_value, 5));
+
+				if ($run_percent > 1)
+					$run_percent = 1;
+
+				if ($adj_value == 0) // shit goes wack if this is true
+					$total_run_points += $interval['dance_points'];
+				else
+					$total_run_points += $run_percent * $interval['dance_points'];
+
+				#echo "RP: " . $total_run_points . "<br />";
+			}
+
+			$result_grade = $total_run_points / $total_dance_points;
+			#echo "RG: " . $total_run_points . " - " . $total_dance_points . "<br />";
+			$force_quit++;
+
+			if ($result_grade < $target_grade)
+				$x += $step_x;
+		}
+		return $x;
+	}
+
 	protected function _process_everything($f = null, $r = null, $user_score_goal = null) {
 		if (!empty($f) && !empty($r)) {
 			$file = trim($f);
@@ -1203,7 +1268,6 @@ class MY_Controller extends CI_Controller {
 		$this->data['notes'] = $notes;
 		// Iteration #1-3 are handled here. I split these out in case we need anything besides enumerated
 		// Trailing empty beats/measures are REMOVED
-		// TODO: Leading?
 		$processed = $this->_process_notes($notes);
 		$this->data['processed'] = $processed;
 		// Iteration #4 - filled in distances and timings
@@ -1294,10 +1358,11 @@ class MY_Controller extends CI_Controller {
 		$stamina_multiplier = $this->_get_stamina_multiplier($nps_graph_array, $percentage_relevant_distributions_floor, $relevant_sections_stamina_factor, $trivial_sections_stamina_factor);
 		$this->data['stamina_multiplier'] = $stamina_multiplier;
 		$stamina_ratio = array_sum($difficult_section_lengths_floor) / array_sum($trivial_section_lengths_floor);
-		$this->data['stamina_ratio'] = $stamina_ratio;
+		$this->data['stamina_ratio'] = $stamina_multiplier;
 		if ($stamina_multiplier < 1)
 			$stamina_multiplier = 1;
 		$stamina_multiplier *= $stamina_ratio;
+		$stamina_normalization_factor = 0.05;
 		$stamina_multiplier = pow($stamina_multiplier, $stamina_normalization_factor);
 		$stamina_multiplier = $stamina_multiplier < 1 ? 1 : $stamina_multiplier;
 		$this->data['stamina_multiplier'] = $stamina_multiplier;
@@ -1310,17 +1375,20 @@ class MY_Controller extends CI_Controller {
 		$this->data['stamina_ratio'] = $meta['stamina_ratio'];
 		$this->data['dance_points_from_holds'] = $meta['dance_points_from_holds'];
 		// THIS IS THE MAIN THING BEING USED RIGHT NOW
-		#$half_interval_simple = end($column_distribution_graphs["0.25"])['full_difficulty_array'];
-		$interval_simple = end($column_distributions_auto)['full_difficulty_array'];
-		#$double_interval_simple = end($column_distribution_graphs["0.5"])['full_difficulty_array'];
 
-		$fudge = round((($percentage_relevant_distributions_floor + $percentage_relevant_distributions_ceil) / 2), 0);
+		$fudge = (($percentage_relevant_distributions_floor + $percentage_relevant_distributions_ceil) / 2);
+
+		// fudge is bad, very very bad. lets do something more clever
+		// Simple array to start, may help memory load
+		$simple_expected_difficulty_array = $this->_get_simple_expected_difficulty_array($column_distributions_auto);
+
+		$calculated_difficulty_x = $this->_get_expected_user_skill_result($simple_expected_difficulty_array, 0.93, $meta['dance_points']);
+
+
 
 		$this->data['meta'] = $meta;
-		$this->data['calculated_difficulty'] = $fudge * $stamina_multiplier;
-		if (!empty($user_score_goal)) {
-			$this->data['user_score_goal_result'] = $ssr_value;
-		}
+		$this->data['calculated_difficulty'] = $calculated_difficulty_x * $stamina_multiplier * 2;
+		$calculated_difficulty = $this->data['calculated_difficulty'];
 
 		$this->content_view = "parser/results";
 		return $calculated_difficulty;

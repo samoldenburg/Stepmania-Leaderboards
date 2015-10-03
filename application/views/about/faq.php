@@ -8,7 +8,7 @@
   <li class="accordion-navigation">
     <a href="#panel2a">Something broke when I was trying to do something on the site, what do I do?</a>
     <div id="panel2a" class="content">
-      Either let Wafles/MinaciousGrace know directly, or use the chat box on the home page to report any bugs. We may implement a better method of tracking issues in the future.
+      Let Wafles know either via Skype, or through the chat box on the home page. Major issues will be addressed as soon as possible.
     </div>
   </li>
   <li class="accordion-navigation">
