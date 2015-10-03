@@ -1215,6 +1215,39 @@ class MY_Controller extends CI_Controller {
 		return $x;
 	}
 
+	protected function _get_new_stamina_multiplier($simple_expected_difficulty_array, $calculated_difficulty_x) {
+		if ($calculated_difficulty_x <= 0) {
+			$relevant_sections_stamina_factor = 1.005;
+			$trivial_sections_stamina_factor = 1.003;
+		} else {
+			$relevant_sections_stamina_factor = 1.005 + (1 - (pow($calculated_difficulty_x, -0.0001)));
+			#echo "RSSF: " . $relevant_sections_stamina_factor . "<br />";
+			$trivial_sections_stamina_factor = 1.003 + (1 - (pow($calculated_difficulty_x, -0.0001))); // - (1 - (pow($calculated_difficulty_x, -0.01)))
+			#echo "TSSF: " . $trivial_sections_stamina_factor . "<br />";
+		}
+
+		$expected_difficulties_non_zero = array();
+		foreach ($simple_expected_difficulty_array as $interval) {
+			if ($interval['expected_difficulty'] > 0)
+				array_push($expected_difficulties_non_zero, $interval['expected_difficulty']);
+		}
+		$average_difficulties_g_zero = array_sum($expected_difficulties_non_zero) / count($expected_difficulties_non_zero);
+		#echo $average_difficulties_g_zero . "<br />";
+
+		$running_factor = 1;
+		foreach ($simple_expected_difficulty_array as $interval) {
+			if ($interval['expected_difficulty'] > $average_difficulties_g_zero)
+				$running_factor  *= $relevant_sections_stamina_factor;
+			else
+				$running_factor /= $trivial_sections_stamina_factor;
+
+			if ($running_factor < 1)
+				$running_factor = 1;
+			#echo $running_factor . "<br />";
+		}
+		return pow($running_factor, 0.15);
+	}
+
 	protected function _process_everything($f = null, $r = null, $user_score_goal = null) {
 		if (!empty($f) && !empty($r)) {
 			$file = trim($f);
@@ -1248,10 +1281,6 @@ class MY_Controller extends CI_Controller {
 		$this->data['one_hand_index_weight'] = $one_hand_index_weight;
 		$pattern_factor = 1;
 		$this->data['pattern_factor'] = $pattern_factor;
-		$relevant_sections_stamina_factor = 1.012;
-		$this->data['relevant_sections_stamina_factor'] = $relevant_sections_stamina_factor;
-		$trivial_sections_stamina_factor = 1.005;
-		$this->data['trivial_sections_stamina_factor'] = $trivial_sections_stamina_factor;
 		$stamina_factor = 0.6;
 		$this->data['stamina_factor'] = $stamina_factor;
 		$cspeed_factor = 1400;
@@ -1355,21 +1384,23 @@ class MY_Controller extends CI_Controller {
 		$this->data['column_distribution_graphs'] = $column_distribution_graphs;
 		#$column_distributions_2s_relevant_only = get_relevant_slices($column_distributions_1s, $nps_graph_array, floor($nps_upper_bound * $factor), 2);
 		// Redoing this below
-		$stamina_multiplier = $this->_get_stamina_multiplier($nps_graph_array, $percentage_relevant_distributions_floor, $relevant_sections_stamina_factor, $trivial_sections_stamina_factor);
-		$this->data['stamina_multiplier'] = $stamina_multiplier;
-		$stamina_ratio = array_sum($difficult_section_lengths_floor) / array_sum($trivial_section_lengths_floor);
-		$this->data['stamina_ratio'] = $stamina_multiplier;
-		if ($stamina_multiplier < 1)
-			$stamina_multiplier = 1;
-		$stamina_multiplier *= $stamina_ratio;
-		$stamina_normalization_factor = 0.05;
-		$stamina_multiplier = pow($stamina_multiplier, $stamina_normalization_factor);
-		$stamina_multiplier = $stamina_multiplier < 1 ? 1 : $stamina_multiplier;
-		$this->data['stamina_multiplier'] = $stamina_multiplier;
-		$meta['stamina_multiplier'] = $stamina_multiplier;
-		$meta['stamina_ratio_diff'] = array_sum($difficult_section_lengths_floor);
-		$meta['stamina_ratio_trivial'] = array_sum($trivial_section_lengths_floor);
-		$meta['stamina_ratio'] = $stamina_ratio;
+
+
+		#$stamina_multiplier = $this->_get_stamina_multiplier($nps_graph_array, $percentage_relevant_distributions_floor, $relevant_sections_stamina_factor, $trivial_sections_stamina_factor);
+		#$this->data['stamina_multiplier'] = $stamina_multiplier;
+		#$stamina_ratio = array_sum($difficult_section_lengths_floor) / array_sum($trivial_section_lengths_floor);
+		#$this->data['stamina_ratio'] = $stamina_ratio;
+		#if ($stamina_multiplier < 1)
+		#	$stamina_multiplier = 1;
+		#$stamina_multiplier *= $stamina_ratio;
+		#$stamina_normalization_factor = 0.05;
+		#$stamina_multiplier = pow($stamina_multiplier, $stamina_normalization_factor);
+		#$stamina_multiplier = $stamina_multiplier < 1 ? 1 : $stamina_multiplier;
+		#$this->data['stamina_multiplier'] = $stamina_multiplier;
+		#$meta['stamina_multiplier'] = $stamina_multiplier;
+		#$meta['stamina_ratio_diff'] = array_sum($difficult_section_lengths_floor);
+		#$meta['stamina_ratio_trivial'] = array_sum($trivial_section_lengths_floor);
+		#$meta['stamina_ratio'] = $stamina_ratio;
 		// turn false to hide test values
 		$this->data['NPS_adjustment_from_free_misses'] = $meta['NPS_adjustment_from_free_misses'];
 		$this->data['stamina_ratio'] = $meta['stamina_ratio'];
@@ -1384,10 +1415,12 @@ class MY_Controller extends CI_Controller {
 
 		$calculated_difficulty_x = $this->_get_expected_user_skill_result($simple_expected_difficulty_array, 0.93, $meta['dance_points']);
 
+		$new_stamina_factor = $this->_get_new_stamina_multiplier($simple_expected_difficulty_array, $calculated_difficulty_x);
+		$meta['new_stamina_multiplier'] = $new_stamina_factor;
 
 
 		$this->data['meta'] = $meta;
-		$this->data['calculated_difficulty'] = $calculated_difficulty_x * $stamina_multiplier * 2;
+		$this->data['calculated_difficulty'] = $calculated_difficulty_x * $new_stamina_factor * 2;
 		$calculated_difficulty = $this->data['calculated_difficulty'];
 
 		$this->content_view = "parser/results";

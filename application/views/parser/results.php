@@ -704,19 +704,24 @@
 	<?php
 		// ---------- NPS GRAPH GENERATION STARTS HERE ---------- //
 		//$column_distributions_auto['nps_factored_with_pattern_analysis'] = ahrens_moving_average($column_distributions_auto['nps_factored_with_pattern_analysis'], 20, count($column_distributions_auto['nps_factored_with_pattern_analysis']));
-		$column_widths = 100 / count($column_distributions_auto);
+        $simple_pattern_graph_array = array();
+        foreach ($column_distributions_auto as $val) {
+            array_push($simple_pattern_graph_array, $val['nps_factored_with_pattern_analysis']);
+        }
+		$simple_pattern_graph_array = ahrens_moving_average($simple_pattern_graph_array, 5, count($simple_pattern_graph_array));
+		$column_widths = 100 / count($simple_pattern_graph_array);
 		$left = 0;
 		$peak = 0;
-		foreach ($column_distributions_auto as $key => $val) {
-			if ($val['nps_factored_with_pattern_analysis'] > $peak)
-				$peak = $val['nps_factored_with_pattern_analysis'];
+		foreach ($simple_pattern_graph_array as $key => $val) {
+			if ($val > $peak)
+				$peak = $val;
 		}
-		foreach ($column_distributions_auto as $second => $graph_row) : ?>
+		foreach ($simple_pattern_graph_array as $second => $graph_row) : ?>
 			<?php
-				$height = $graph_row['nps_factored_with_pattern_analysis'] / $peak * 100;
+				$height = $graph_row / $peak * 100;
 				$left += $column_widths;
 			?>
-			<div class="bar has-tip" data-tooltip aria-haspopup="true" title="<?=($second  / (pow($programmatically_derived_interval, -1)));?>s: <?=$graph_row['nps_factored_with_pattern_analysis'];?> diff" style="width: <?=$column_widths;?>%; height: <?=$height;?>%; left: <?=$left;?>%;">
+			<div class="bar has-tip" data-tooltip aria-haspopup="true" title="<?=($second  / (pow($programmatically_derived_interval, -1)));?>s: <?=$graph_row;?> diff" style="width: <?=$column_widths;?>%; height: <?=$height;?>%; left: <?=$left;?>%;">
 			</div>
 		<?php endforeach;
 	?>
@@ -734,7 +739,7 @@
 			?>
 		</div>
 	</div>
-	<div id="bottom-legend" style="left: <?=(1 / count($nps_graph_array) * 100);?>%;">
+	<div id="bottom-legend" style="left: <?=(1 / count($simple_pattern_graph_array) * 100);?>%;">
 		<div id="bl-shell">
 			<?php
 				$peak_time = count($column_distributions_auto);
