@@ -1294,6 +1294,8 @@ class MY_Controller extends CI_Controller {
 		$arrow_pixel_offset = 400;
 		$this->data['arrow_pixel_offset'] = $arrow_pixel_offset;
 		$show_tests = false;
+		if ($_GET['show_tests'] == "true")
+			$show_tests = true;
 		$this->data['show_tests'] = $show_tests;
 		// ---------- PARSE LOGIC STARTS HERE ---------- //
 		// Build the file meta data array
