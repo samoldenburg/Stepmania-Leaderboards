@@ -1248,9 +1248,13 @@ class MY_Controller extends CI_Controller {
 				$running_factor = 1;
 			#echo $running_factor . "<br />";
 		}
+		// We need to normalize back down, or this value can get out of hand.
 		$running_factor = pow($running_factor, 0.175);
 		#echo $running_factor . "<br />";
-		// We need to normalize back down, or this value can get out of hand.
+
+		// Max bonus from stamina..
+		if ($running_factor > 1.20)
+			$running_factor = 1.20;
 		return $running_factor;
 	}
 
@@ -1295,7 +1299,7 @@ class MY_Controller extends CI_Controller {
 		$this->data['arrow_pixel_offset'] = $arrow_pixel_offset;
 		$show_tests = false;
 		if ($_GET['show_tests'] == "true")
-			$show_tests = true;
+			$show_tests = true ;
 		$this->data['show_tests'] = $show_tests;
 		// ---------- PARSE LOGIC STARTS HERE ---------- //
 		// Build the file meta data array
