@@ -1455,6 +1455,8 @@ class MY_Controller extends CI_Controller {
 		$calculated_difficulty = $this->data['calculated_difficulty'];
 		#echo $calculated_difficulty . "<br />";
 
+		$this->data['new_stamina_difficulties'] = $new_stamina_difficulties;
+
 		$this->content_view = "parser/results";
 		return $calculated_difficulty;
 	}

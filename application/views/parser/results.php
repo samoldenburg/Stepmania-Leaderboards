@@ -698,15 +698,15 @@
 </div>
 
 */ ?>
-<h2>Distribution Pattern Analysis Graph (Programmatic Interval <?=$programmatically_derived_interval;?>s sections)</h2>
+<h2>Pattern Difficulty Graph (<?=$programmatically_derived_interval;?>s sections)</h2>
 <p>Hover for applied difficulty at current time</p>
 <div id="graph">
 	<?php
 		// ---------- NPS GRAPH GENERATION STARTS HERE ---------- //
 		//$column_distributions_auto['nps_factored_with_pattern_analysis'] = ahrens_moving_average($column_distributions_auto['nps_factored_with_pattern_analysis'], 20, count($column_distributions_auto['nps_factored_with_pattern_analysis']));
         $simple_pattern_graph_array = array();
-        foreach ($column_distributions_auto as $val) {
-            array_push($simple_pattern_graph_array, $val['nps_factored_with_pattern_analysis']);
+        foreach ($new_stamina_difficulties as $val) {
+            array_push($simple_pattern_graph_array, $val['expected_difficulty']);
         }
 		$simple_pattern_graph_array = ahrens_moving_average($simple_pattern_graph_array, 5, count($simple_pattern_graph_array));
 		$column_widths = 100 / count($simple_pattern_graph_array);
