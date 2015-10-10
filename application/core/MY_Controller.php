@@ -631,8 +631,8 @@ class MY_Controller extends CI_Controller {
 				#$current_interval['nps_factored_with_pattern_analysis'] = ($hand_factor * $hand_factor_weight) * ($anchor_index * $anchor_index_weight) * ($one_hand_index_left * $one_hand_index_weight) * ($one_hand_index_right * $one_hand_index_weight);
 
 				// hand mod strikes, adding in additional weight for jumps
-				$current_interval['left_mod_strikes'] = ($current_interval['left_hand_taps'] + ($current_interval['left_hand_jumps'] * 0.5)) * (1/(pow($current_interval['cv_left_hand'], -0.05)));
-				$current_interval['right_mod_strikes'] = ($current_interval['right_hand_taps'] + ($current_interval['right_hand_jumps'] * 0.5)) * (1/(pow($current_interval['cv_right_hand'], -0.05)));
+				$current_interval['left_mod_strikes'] = ($current_interval['left_hand_taps'] + ($current_interval['left_hand_jumps'] * 0.5)) * (1/(pow($current_interval['cv_left_hand'], -0.04)));
+				$current_interval['right_mod_strikes'] = ($current_interval['right_hand_taps'] + ($current_interval['right_hand_jumps'] * 0.5)) * (1/(pow($current_interval['cv_right_hand'], -0.04)));
 
 
 				// "if this file was evenly difficult on both hands for the whole file, taking all the hardest hands, how many strikes per second would it be"
@@ -640,7 +640,7 @@ class MY_Controller extends CI_Controller {
 				$current_interval['nps_factored_with_pattern_analysis'] = $current_interval['max_mod_strikes'];
 				if (is_infinite($current_interval['nps_factored_with_pattern_analysis']))
 					$current_interval['nps_factored_with_pattern_analysis'] = 0;
-				$current_interval['expected_difficulty'] = $current_interval['max_mod_strikes'] + ($current_interval['split_hand_density'] * 0.33);
+				$current_interval['expected_difficulty'] = $current_interval['max_mod_strikes'] + ($current_interval['split_hand_density'] * 0.25);
 
 
 
@@ -1192,7 +1192,7 @@ class MY_Controller extends CI_Controller {
 			$total_run_points = 0;
 			foreach ($simple_expected_difficulty_array as $interval) {
 				$adj_value = 2 * $interval['expected_difficulty'];
-				$run_percent = (pow($x / $adj_value, 5));
+				$run_percent = (pow($x / $adj_value, 4));
 
 				if ($run_percent > 1)
 					$run_percent = 1;
@@ -1237,6 +1237,9 @@ class MY_Controller extends CI_Controller {
 		$average_difficulties_g_zero = array_sum($expected_difficulties_non_zero) / count($expected_difficulties_non_zero);
 		#echo $average_difficulties_g_zero . "<br />";
 
+
+		$new_stamina_difficulties = array();
+
 		$running_factor = 1;
 		foreach ($simple_expected_difficulty_array as $interval) {
 			if ($interval['expected_difficulty'] > $average_difficulties_g_zero)
@@ -1246,16 +1249,27 @@ class MY_Controller extends CI_Controller {
 
 			if ($running_factor < 1)
 				$running_factor = 1;
+			else if ($running_factor > 1.25)
+				$running_factor = 1.25;
+
+			$this_section['expected_difficulty'] = $interval['expected_difficulty'] * $running_factor;
+			$this_section['dance_points'] = $interval['dance_points'];
+
+			array_push($new_stamina_difficulties, $this_section);
 			#echo $running_factor . "<br />";
 		}
 		// We need to normalize back down, or this value can get out of hand.
 		$running_factor = pow($running_factor, 0.175);
 		#echo $running_factor . "<br />";
 
+		#echo "<pre>";
+		#print_r($new_stamina_difficulties);
+		#echo "</pre>";
+
 		// Max bonus from stamina..
 		if ($running_factor > 1.20)
 			$running_factor = 1.20;
-		return $running_factor;
+		return $new_stamina_difficulties;
 	}
 
 	protected function _process_everything($f = null, $r = null, $user_score_goal = null) {
@@ -1427,13 +1441,19 @@ class MY_Controller extends CI_Controller {
 
 		$calculated_difficulty_x = $this->_get_expected_user_skill_result($simple_expected_difficulty_array, 0.93, $meta['dance_points']);
 
-		$new_stamina_factor = $this->_get_new_stamina_multiplier($simple_expected_difficulty_array, $calculated_difficulty_x);
-		$meta['new_stamina_multiplier'] = $new_stamina_factor;
+		$new_stamina_difficulties = $this->_get_new_stamina_multiplier($simple_expected_difficulty_array, $calculated_difficulty_x);
 
 
 		$this->data['meta'] = $meta;
-		$this->data['calculated_difficulty'] = $calculated_difficulty_x * $new_stamina_factor * 2;
+		$this->data['calculated_difficulty_no_stamina'] = $calculated_difficulty_x * (1 / $programmatically_derived_interval);
+		$calculated_difficulty_no_stamina = $this->data['calculated_difficulty_no_stamina'];
+		#echo $calculated_difficulty_no_stamina . "<br />";
+
+
+		$calculated_difficulty_with_stamina = $this->_get_expected_user_skill_result($new_stamina_difficulties, 0.93, $meta['dance_points']);
+		$this->data['calculated_difficulty'] = $calculated_difficulty_with_stamina * (1 / $programmatically_derived_interval);
 		$calculated_difficulty = $this->data['calculated_difficulty'];
+		#echo $calculated_difficulty . "<br />";
 
 		$this->content_view = "parser/results";
 		return $calculated_difficulty;
