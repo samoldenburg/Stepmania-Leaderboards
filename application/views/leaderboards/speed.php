@@ -1,4 +1,4 @@
 <p>
-    The algorithm that determines this list is currently a work in progress.
+    Top players with scores in the speed category.
 </p>
 <?php include('display_board.php'); ?>

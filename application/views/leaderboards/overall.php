@@ -1,7 +1,7 @@
 <p>
-    Overall rating is based on players' best individual skill ratings.
+    Overall rating is based on players' best individual skill ratings. The tables below state the requirements based on your highest score in order to achieve a spot on the overall leaderboard.
 </p>
 <p>
-    The algorithm that determines this list is currently a work in progress.
+    <div style="width: 50%; float: left;">Tier 1: Highest score 0-15<table><tr><td>Scores for individual skill rating:</td><td>1</td></tr><tr><td>Ratings for overall skill rating:</td><td>1</td></tr><tr><td>Total Scores Required:</td><td>1</td></table></div><div style="width: 50%; float: left;">Tier 2: Highest score 15-20<table><tr><td>Scores for individual skill rating:</td><td>1</td></tr><tr><td>Ratings for overall skill rating:</td><td>2</td></tr><tr><td>Total Scores Required:</td><td>2</td></table></div><div style="width: 50%; float: left;">Tier 3: Highest score 20-24<table><tr><td>Scores for individual skill rating:</td><td>2</td></tr><tr><td>Ratings for overall skill rating:</td><td>2</td></tr><tr><td>Total Scores Required:</td><td>4</td></table></div><div style="width: 50%; float: left;">Tier 4: Highest score 24-28<table><tr><td>Scores for individual skill rating:</td><td>2</td></tr><tr><td>Ratings for overall skill rating:</td><td>3</td></tr><tr><td>Total Scores Required:</td><td>6</td></table></div><div style="width: 50%; float: left;">Tier 5: Highest score 28-31<table><tr><td>Scores for individual skill rating:</td><td>3</td></tr><tr><td>Ratings for overall skill rating:</td><td>3</td></tr><tr><td>Total Scores Required:</td><td>9</td></table></div><div style="width: 50%; float: left;">Tier 6: Highest score 31+<table><tr><td>Scores for individual skill rating:</td><td>5</td></tr><tr><td>Ratings for overall skill rating:</td><td>3</td></tr><tr><td>Total Scores Required:</td><td>15</td></table></div>
 </p>
 <?php include('display_board.php'); ?>
