@@ -878,7 +878,3 @@
 ?>
 <h4><strong>Score:</strong> <?=$calculated_difficulty;?></h4>
 </div>
-<p>
-    <small><strong>Note: </strong>For now this calculation is only the NPS Adjusted value times my stamina multiplier calculation.<br />
-        A more robust calculator will be coded soon. Unfortunately the original calculations are no longer being used on this site.<br /> -Wafles</small>
-</p>
