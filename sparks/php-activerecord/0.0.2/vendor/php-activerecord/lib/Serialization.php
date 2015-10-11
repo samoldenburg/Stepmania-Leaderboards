@@ -107,7 +107,7 @@ abstract class Serialization
 		$this->check_except();
 		$this->check_methods();
 		$this->check_include();
-		$this->check_only_method();        
+		$this->check_only_method();
 	}
 
 	private function check_only()
@@ -143,7 +143,7 @@ abstract class Serialization
 			}
 		}
 	}
-	
+
 	private function check_only_method()
 	{
 		if (isset($this->options['only_method']))

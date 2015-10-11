@@ -93,4 +93,36 @@ class Ajax extends MY_Controller {
 		$this->content_view = 'ajax/chat_log';
 		$this->data['chat'] = Chat_log::get_chat_log();
 	}
+
+
+	public function charts_json() {
+        $charts = Ranked_file::get_all_charts();
+		$json_ready = array();
+		$json_ready['data'] = array();
+		foreach ($charts as $song) {
+			$data = array();
+			if ($this->session->userdata('user_level') >= 2)
+				$data[0] = "<span class=\"label warning\"><a href=\"/mod/edit_chart/{$song->id}\">Edit</a></span> <a href=\"/charts/view/<{$song->id}\">{$song->title}</a>";
+			else
+				$data[0] = "<a href=\"/charts/view/<{$song->id}\">{$song->title}</a>";
+			$data[1] = $song->artist;
+			$data[2] = number_format($song->rate, 1);
+			$data[3] = number_format($song->difficulty_score, 2);
+			$data[4] = "<a href=\"/packs/view/{$song->pack_id}\">{$song->pack_name}</a>" . (!empty($song->pack_abbr) ? " (" . $song->pack_abbr . ")" : "");
+			$data[5] = gmdate("i:s", $song->length);
+			$typestring = "";
+			if ($song->stamina_file)
+				$typestring .= "Stamina, ";
+			$typestring .= ucwords($song->file_type);
+			$data[6] = $typestring;
+			if ($this->session->userdata('user_level'))
+				$data[7] = "<span class=\"label primary\"><a href=\"/scores/submit/{$song->id}\">Submit Score</a></span>";
+			else
+				$data[7] = null;
+
+			array_push($json_ready['data'], $data);
+		}
+		$this->data['charts'] = $json_ready;
+		#print_r($this->data['charts']->to_array());
+	}
 }

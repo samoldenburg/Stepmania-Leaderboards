@@ -292,7 +292,8 @@ jQuery(document).ready(function($) {
             null,
             null,
             null
-        ]
+        ],
+        "ajax": '/ajax/charts_json'
 
     });
 
