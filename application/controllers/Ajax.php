@@ -105,7 +105,7 @@ class Ajax extends MY_Controller {
 
 			// Fill out the data array.
 			if ($this->session->userdata('user_level') >= 2)
-				$data[0] = "<span class=\"label warning\"><a href=\"/mod/edit_chart/{$song->id}\">Edit</a></span> <a href=\"/charts/view/<{$song->id}\">{$song->title}</a>";
+				$data[0] = "<span class=\"label warning\"><a href=\"/mod/edit_chart/{$song->id}\">Edit</a></span> <a href=\"/charts/view/{$song->id}\">{$song->title}</a>";
 			else
 				$data[0] = "<a href=\"/charts/view/<{$song->id}\">{$song->title}</a>";
 			$data[1] = $song->artist;
