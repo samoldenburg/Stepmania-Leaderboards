@@ -94,13 +94,16 @@ class Ajax extends MY_Controller {
 		$this->data['chat'] = Chat_log::get_chat_log();
 	}
 
-
+	// Render out json encoded data for the charts Table
+	// TODO: Make it so that the charts filters actively search on this, will improve client end performance significantly
 	public function charts_json() {
         $charts = Ranked_file::get_all_charts();
 		$json_ready = array();
 		$json_ready['data'] = array();
 		foreach ($charts as $song) {
 			$data = array();
+
+			// Fill out the data array.
 			if ($this->session->userdata('user_level') >= 2)
 				$data[0] = "<span class=\"label warning\"><a href=\"/mod/edit_chart/{$song->id}\">Edit</a></span> <a href=\"/charts/view/<{$song->id}\">{$song->title}</a>";
 			else
@@ -123,6 +126,6 @@ class Ajax extends MY_Controller {
 			array_push($json_ready['data'], $data);
 		}
 		$this->data['charts'] = $json_ready;
-		#print_r($this->data['charts']->to_array());
+		$this->output->set_content_type('application/json');
 	}
 }
