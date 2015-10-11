@@ -293,7 +293,10 @@ jQuery(document).ready(function($) {
             null,
             null
         ],
-        "ajax": '/ajax/charts_json'
+        "ajax": '/ajax/charts_json',
+        "language": {
+            "emptyTable":     "Loading..."
+        }
 
     });
 
