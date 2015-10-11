@@ -100,7 +100,7 @@
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($songs as $song) : ?>
+        <?php /* foreach ($songs as $song) : ?>
             <tr>
                 <td>
                     <a href="/scores/submit/<?=$song->id;?>"><?=$song->title;?></a>
@@ -135,6 +135,6 @@
                 <?php endif; ?>
                 </td>
             </tr>
-        <?php endforeach; ?>
+        <?php endforeach; */ ?>
     </tbody>
 </table>
