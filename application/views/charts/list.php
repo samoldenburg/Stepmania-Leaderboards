@@ -88,44 +88,47 @@
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($songs as $song) : ?>
-            <tr>
-                <td>
-                    <?php if ($user_level >= 2) : ?>
-                        <span class="label warning"><a href="/mod/edit_chart/<?=$song->id;?>">Edit</a></span>
-                    <?php endif; ?>
-                    <a href="/charts/view/<?=$song->id;?>"><?=$song->title;?></a>
-                </td>
-                <td>
-                    <?=$song->artist;?>
-                </td>
-                <td>
-                    <?=number_format($song->rate, 1);?>x
-                </td>
-                <td>
-                    <?=number_format($song->difficulty_score, 2);?>
-                </td>
-                <td>
-                    <a href="/packs/view/<?=$song->pack_id;?>"><?=$song->pack_name;?></a>  <?=(!empty($song->pack_abbr) ? "(" . $song->pack_abbr . ")" : "");?>
-                </td>
-                <td>
-                    <?=gmdate("i:s", $song->length);?>
-                </td>
-                <td>
-                    <?php
-                        $typestring = "";
-                        if ($song->stamina_file)
-                            $typestring .= "Stamina, ";
-                        $typestring .= ucwords($song->file_type);
-                    ?>
-                    <?=$typestring;?>
-                </td>
-                <td>
-                <?php if ($logged_in) : ?>
-                        <span class="label primary"><a href="/scores/submit/<?=$song->id;?>">Submit Score</a></span>
+        <?php /*
+        <tr>
+            <td>
+                <?php if ($user_level >= 2) : ?>
+                    <span class="label warning"><a href="/mod/edit_chart/<?=$song->id;?>">Edit</a></span>
                 <?php endif; ?>
-                </td>
-            </tr>
+                <a href="/charts/view/<?=$song->id;?>"><?=$song->title;?></a>
+            </td>
+            <td>
+                <?=$song->artist;?>
+            </td>
+            <td>
+                <?=number_format($song->rate, 1);?>x
+            </td>
+            <td>
+                <?=number_format($song->difficulty_score, 2);?>
+            </td>
+            <td>
+                <a href="/packs/view/<?=$song->pack_id;?>"><?=$song->pack_name;?></a>  <?=(!empty($song->pack_abbr) ? "(" . $song->pack_abbr . ")" : "");?>
+            </td>
+            <td>
+                <?=gmdate("i:s", $song->length);?>
+            </td>
+            <td>
+                <?php
+                    $typestring = "";
+                    if ($song->stamina_file)
+                        $typestring .= "Stamina, ";
+                    $typestring .= ucwords($song->file_type);
+                ?>
+                <?=$typestring;?>
+            </td>
+            <td>
+            <?php if ($logged_in) : ?>
+                    <span class="label primary"><a href="/scores/submit/<?=$song->id;?>">Submit Score</a></span>
+            <?php endif; ?>
+            </td>
+        </tr>
+
+        */ ?>
+        <?php foreach ($songs as $song) : ?><tr><td><?php if ($user_level >= 2) : ?><span class="label warning"><a href="/mod/edit_chart/<?=$song->id;?>">Edit</a></span><?php endif; ?><a href="/charts/view/<?=$song->id;?>"><?=$song->title;?></a></td><td><?=$song->artist;?></td><td><?=number_format($song->rate, 1);?>x</td><td><?=number_format($song->difficulty_score, 2);?></td><td><a href="/packs/view/<?=$song->pack_id;?>"><?=$song->pack_name;?></a>  <?=(!empty($song->pack_abbr) ? "(" . $song->pack_abbr . ")" : "");?></td><td><?=gmdate("i:s", $song->length);?></td><td><?php $typestring = "";if ($song->stamina_file) {$typestring .= "Stamina, ";}$typestring .= ucwords($song->file_type);?><?=$typestring;?></td><td><?php if ($logged_in) : ?><span class="label primary"><a href="/scores/submit/<?=$song->id;?>">Submit Score</a></span><?php endif; ?></td></tr>
         <?php endforeach; ?>
     </tbody>
 </table>

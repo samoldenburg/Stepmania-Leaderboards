@@ -18,7 +18,7 @@ class Pack extends ActiveRecord\Model {
 	// SELECT `packs`.*, (SELECT COUNT(*) FROM `ranked_files` WHERE `ranked_files`.`pack_id` = `packs`.`id`) AS file_count FROM `packs`
 	public static function get_all_pack_info() {
 		return Pack::all(array(
-				"select" => "`packs`.*, (SELECT COUNT(*) FROM `ranked_files` WHERE `ranked_files`.`pack_id` = `packs`.`id`) AS file_count, (SELECT AVG(difficulty_score) FROM `ranked_files` WHERE `ranked_files`.`pack_id` = `packs`.`id`) as average"
+				"select" => "`packs`.*, (SELECT COUNT(*) FROM `ranked_files` WHERE `ranked_files`.`pack_id` = `packs`.`id`) AS file_count, (SELECT AVG(difficulty_score) FROM `ranked_files` WHERE `ranked_files`.`pack_id` = `packs`.`id` AND `ranked_files`.`rate` = 1) as average"
 			)
 		);
 	}
