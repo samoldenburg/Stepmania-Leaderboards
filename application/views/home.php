@@ -54,27 +54,17 @@
                     </th>
                 </tr>
             </thead>
-            <tbody>
-                <?php $i = 1; ?>
-                <?php foreach($overall_leaderboards as $lb_row) : ?>
-                    <tr>
-                        <td>
-                            <?=$i;?>
-                        </td>
-                        <td>
-                            <a href="<?=$lb_row['profile_link'];?>"><?=$lb_row['username'];?></a>
-                        </td>
-                        <td>
-                            <?=number_format($lb_row['average_score'], 2);?>
-                        </td>
-                    </tr>
-                <?php
-                    $i++;
-                    if ($i == 11)
-                        break;
-                endforeach; ?>
+            <tbody id="lb-content">
+                <tr>
+                    <td colspan="3">
+                        Loading...
+                    </td>
+                </tr>
             </tbody>
         </table>
+        <p style="margin-top: -22px;font-size: 1.25rem;text-align: right;margin-bottom: 0;">
+            <small><a href="/leaderboards/overall">View Full List</a></small>
+        </p>
         <h3>Chat</h3>
         <div id="chat-box" class="always-visible">
             <div id="chat-contents">
@@ -87,6 +77,9 @@
             </form>
             <script type="text/javascript">
                 jQuery(document).ready(function($) {
+                    $.get("ajax/get_home_leaderboard", function(data) {
+                        $("#lb-content").html(data);
+                    });
                     $("#chat-type").keydown(function(e) {
                         if (e.which == 13) {
                             var cdata = $("#chat-form").serialize();

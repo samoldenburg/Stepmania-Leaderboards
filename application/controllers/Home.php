@@ -14,8 +14,6 @@ class Home extends MY_Controller {
 	public function index(){
         $this->content_view = 'home';
 		$this->data['announcements'] = Announcement::get_announcements();
-		$this->data['overall_leaderboards'] = User_score::get_overall_leaderboard();
-
 		#$this->load->helper('twitch');
 		#load_api_interface();
 

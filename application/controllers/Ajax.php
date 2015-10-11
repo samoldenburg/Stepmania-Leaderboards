@@ -128,4 +128,9 @@ class Ajax extends MY_Controller {
 		$this->data['charts'] = $json_ready;
 		$this->output->set_content_type('application/json');
 	}
+
+	public function get_home_leaderboard() {
+		$this->data['overall_leaderboards'] = User_score::get_overall_leaderboard();
+		$this->content_view = "ajax/home_leaderboard";
+	}
 }
