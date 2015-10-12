@@ -1,15 +1,15 @@
 <div class="row">
     <div class="large-8 columns">
-        <?php /* if (!empty($streams)) : ?>
+        <?php if (!empty($streams)) : ?>
             <h3>Streams</h3>
             <div id="stream-shell">
                 <?php $c = 0; ?>
                 <?php foreach($streams as $stream) : ?>
                     <div class="stream large-3 columns">
-                        <a href="<?=$stream['channel']['url'];?>" target="_blank"><img src="<?=$stream['preview']['medium'];?>" /></a>
-                        <h5><a href="<?=$stream['channel']['url'];?>" target="_blank"><?=$stream['channel']['display_name'];?></a></h5>
+                        <a href="<?=$stream->channel->url;?>" target="_blank"><img src="<?=$stream->preview->medium;?>" /></a>
+                        <h5><a href="<?=$stream->channel->url;?>" target="_blank"><?=$stream->channel->display_name;?></a></h5>
                         <p class="s-p">
-                            Playing <?=$stream['channel']['game'];?> for <?=$stream['viewers'];?> <?=($stream['viewers'] == 1 ? "viewer" : "viewers"); ?>.
+                            Playing <?=$stream->channel->game;?> for <?=$stream->viewers;?> <?=($stream->viewers == 1 ? "viewer" : "viewers"); ?>.
                         </p>
                     </div>
                 <?php $c++; if ($c == 4) break; endforeach; ?>
@@ -17,7 +17,7 @@
                     <div class="stream large-2 columns"><br /></div>
                 <?php endfor; ?>
             </div>
-        <?php endif; */ ?>
+        <?php endif; ?>
         <h3 style="clear: both;">Announcements</h3>
         <?php foreach ($announcements as $announcement) : ?>
             <div class="announcement">
@@ -102,7 +102,7 @@
                 $.get("ajax/get_home_leaderboard", function(data) {
                     $("#lb-content").html(data);
                 });
-                
+
                 var scrolled_up = false;
                 $('#chat-box').scroll(function() {
                     var s = $(this).scrollTop();

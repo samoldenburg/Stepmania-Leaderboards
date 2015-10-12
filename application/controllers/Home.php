@@ -14,11 +14,12 @@ class Home extends MY_Controller {
 	public function index(){
         $this->content_view = 'home';
 		$this->data['announcements'] = Announcement::get_announcements();
-		#$this->load->helper('twitch');
-		#load_api_interface();
 
-		#$interface = new twitch;
-		#$streams = $interface->getStreamsObjects('StepMania');
-		#$this->data['streams'] = $streams;
+		$this->load->helper('twitch');
+		load_api_interface();
+
+		$result = json_decode(file_get_contents("https://api.twitch.tv/kraken/streams?game=StepMania&limit=4"));
+
+		$this->data['streams'] = $result->streams;
 	}
 }
