@@ -77,9 +77,6 @@
             </form>
             <script type="text/javascript">
                 jQuery(document).ready(function($) {
-                    $.get("ajax/get_home_leaderboard", function(data) {
-                        $("#lb-content").html(data);
-                    });
                     $("#chat-type").keydown(function(e) {
                         if (e.which == 13) {
                             var cdata = $("#chat-form").serialize();
@@ -102,6 +99,10 @@
         <?php endif; ?>
         <script type="text/javascript">
             jQuery(document).ready(function($) {
+                $.get("ajax/get_home_leaderboard", function(data) {
+                    $("#lb-content").html(data);
+                });
+                
                 var scrolled_up = false;
                 $('#chat-box').scroll(function() {
                     var s = $(this).scrollTop();
