@@ -640,7 +640,7 @@ class MY_Controller extends CI_Controller {
 				$current_interval['nps_factored_with_pattern_analysis'] = $current_interval['max_mod_strikes'];
 				if (is_infinite($current_interval['nps_factored_with_pattern_analysis']))
 					$current_interval['nps_factored_with_pattern_analysis'] = 0;
-				$current_interval['expected_difficulty'] = $current_interval['max_mod_strikes'] + ($current_interval['split_hand_density'] * 0.25);
+				$current_interval['expected_difficulty'] = $current_interval['max_mod_strikes'] + ($current_interval['split_hand_density'] * 0.1);
 
 
 
