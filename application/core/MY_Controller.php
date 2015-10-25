@@ -1249,8 +1249,8 @@ class MY_Controller extends CI_Controller {
 
 			if ($running_factor < 1)
 				$running_factor = 1;
-			else if ($running_factor > 1.25)
-				$running_factor = 1.25;
+			else if ($running_factor > 1.15)
+				$running_factor = 1.15;
 
 			$this_section['expected_difficulty'] = $interval['expected_difficulty'] * $running_factor;
 			$this_section['dance_points'] = $interval['dance_points'];
