@@ -262,7 +262,7 @@ jQuery(document).ready(function($) {
         "paging": false,
         "autoWidth": false,
         "searching": false,
-        "order": [[ 9, "desc" ]]
+        "order": [[ 5, "desc" ]]
     });
 
     $("#rank-table").DataTable({
