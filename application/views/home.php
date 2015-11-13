@@ -28,13 +28,13 @@
                                 User Name
                             </th>
                             <th>
+                                Chart
+                            </th>
+                            <th>
                                 Grade
                             </th>
                             <th>
                                 DP %
-                            </th>
-                            <th>
-                                EX ONI %
                             </th>
                             <th>
                                 MA
@@ -85,13 +85,13 @@
                                     <a href="/profile/view/<?=$score->username;?>"><?=$score->display_name;?></a>
                                 </td>
                                 <td>
+                                    <a href="/charts/view/<?=$score->file_id;?>"><?=$score->title;?></a>
+                                </td>
+                                <td>
                                     <?=$grade_earned;?>
                                 </td>
                                 <td>
                                     <?=number_format($max_dp_percent, 2);?>%
-                                </td>
-                                <td>
-                                    <?=number_format($ex_oni_percent, 2);?>%
                                 </td>
                                 <td>
                                     <?=$score->marvelous_count;?>
@@ -109,7 +109,7 @@
                                     <?=date("m/d/Y", strtotime($score->date_achieved));?>
                                 </td>
                                 <td>
-                                    <a href="<?=$score->screenshot_url;?>" target="_blank">View Screenshot</a>
+                                    <a href="<?=$score->screenshot_url;?>" target="_blank">View</a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
