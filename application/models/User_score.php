@@ -5,6 +5,21 @@
 class User_score extends ActiveRecord\Model {
 	static $table_name = "user_scores";
 
+	public static function get_recent_scores() {
+		return User_score::all(array(
+                'select' => 'user_scores.*, users.username as username, users.display_name as display_name, ranked_files.pack_id as pack_id, ranked_files.stamina_file as stamina_file, ranked_files.file_type as file_type, ranked_files.title as title, ranked_files.subtitle as subtitle, ranked_files.artist as artist, ranked_files.rate as file_rate, ranked_files.length as length, ranked_files.dance_points as total_dance_points, ranked_files.taps as file_taps, ranked_files.holds as file_holds, ranked_files.mines as file_mines, ranked_files.difficulty_score as difficulty_score, packs.name as pack_name, packs.abbreviation as pack_abbreviation',
+                'conditions' => '(status = "approved" OR status = "below_aa") AND user_scores.date_achieved <= CURDATE() AND user_id IS NOT NULL',
+                'joins' => array(
+                    'LEFT JOIN users ON users.id = user_scores.user_id',
+                    'LEFT JOIN ranked_files ON ranked_files.id = user_scores.file_id',
+                    'LEFT JOIN packs ON ranked_files.pack_id = packs.id'
+                ),
+                'order' => 'user_scores.date_achieved DESC',
+				'limit' => '10'
+            )
+        );
+	}
+
 	public static function get_scores_for_recalculate() {
 		return User_score::all(array(
 				'select' => 'user_scores.id, ranked_files.title, ranked_files.rate, users.username',

@@ -21,5 +21,7 @@ class Home extends MY_Controller {
 		$result = json_decode(file_get_contents("https://api.twitch.tv/kraken/streams?game=StepMania&limit=4"));
 
 		$this->data['streams'] = $result->streams;
+
+		$this->data['recent_scores'] = User_score::get_recent_scores();
 	}
 }

@@ -18,6 +18,105 @@
                 <?php endfor; ?>
             </div>
         <?php endif; ?>
+        <h3 style="clear: both;">Recent Scores</h3>
+        <div class="row">
+            <div class="large-12 columns">
+                <table id="recent-scores-table">
+                    <thead>
+                        <tr>
+                            <th>
+                                User Name
+                            </th>
+                            <th>
+                                Grade
+                            </th>
+                            <th>
+                                DP %
+                            </th>
+                            <th>
+                                EX ONI %
+                            </th>
+                            <th>
+                                MA
+                            </th>
+                            <th>
+                                PA
+                            </th>
+                            <th>
+                                GA
+                            </th>
+                            <th>
+                                CBs
+                            </th>
+                            <th>
+                                Date Achieved
+                            </th>
+                            <th>
+                                Screenshot
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($recent_scores as $score) : ?>
+                            <?php
+                                $max_dp_percent = calculate_dp_percent($score);
+
+                                $grade_earned = "<img src='/assets/img/c.png' />";
+                                if ($max_dp_percent > 65) {
+                                    $grade_earned = "<img src='/assets/img/b.png' />";
+                                }
+                                if ($max_dp_percent > 80) {
+                                    $grade_earned = "<img src='/assets/img/a.png' />";
+                                }
+                                if ($max_dp_percent > 93) {
+                                    $grade_earned = "<img src='/assets/img/aa.png' />";
+                                }
+                                if ($max_dp_percent == 100) {
+                                    $grade_earned = "<img src='/assets/img/aaa.png' />";
+                                }
+                                if ($max_dp_percent == 100 && $score->perfect_count == 0) {
+                                    $grade_earned = "<img src='/assets/img/aaaa.png' />";
+                                }
+
+                                $ex_oni_percent = calculate_ex_oni_percent($score);
+                            ?>
+                            <tr>
+                                <td>
+                                    <a href="/profile/view/<?=$score->username;?>"><?=$score->display_name;?></a>
+                                </td>
+                                <td>
+                                    <?=$grade_earned;?>
+                                </td>
+                                <td>
+                                    <?=number_format($max_dp_percent, 2);?>%
+                                </td>
+                                <td>
+                                    <?=number_format($ex_oni_percent, 2);?>%
+                                </td>
+                                <td>
+                                    <?=$score->marvelous_count;?>
+                                </td>
+                                <td>
+                                    <?=$score->perfect_count;?>
+                                </td>
+                                <td>
+                                    <?=$score->great_count;?>
+                                </td>
+                                <td>
+                                    <?=($score->good_count + $score->boo_count + $score->miss_count);?>
+                                </td>
+                                <td>
+                                    <?=date("m/d/Y", strtotime($score->date_achieved));?>
+                                </td>
+                                <td>
+                                    <a href="<?=$score->screenshot_url;?>" target="_blank">View Screenshot</a>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
         <h3 style="clear: both;">Announcements</h3>
         <?php foreach ($announcements as $announcement) : ?>
             <div class="announcement">
