@@ -37,16 +37,7 @@
                                 DP %
                             </th>
                             <th>
-                                MA
-                            </th>
-                            <th>
-                                PA
-                            </th>
-                            <th>
-                                GA
-                            </th>
-                            <th>
-                                CBs
+                                Difficulty
                             </th>
                             <th>
                                 Date Achieved
@@ -94,16 +85,7 @@
                                     <?=number_format($max_dp_percent, 2);?>%
                                 </td>
                                 <td>
-                                    <?=$score->marvelous_count;?>
-                                </td>
-                                <td>
-                                    <?=$score->perfect_count;?>
-                                </td>
-                                <td>
-                                    <?=$score->great_count;?>
-                                </td>
-                                <td>
-                                    <?=($score->good_count + $score->boo_count + $score->miss_count);?>
+                                    <?=number_format($score->difficulty_score, 2);?>
                                 </td>
                                 <td>
                                     <?=date("m/d/Y", strtotime($score->date_achieved));?>
