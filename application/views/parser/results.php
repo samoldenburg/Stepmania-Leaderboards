@@ -354,8 +354,8 @@
 
 <?php
 	if ($show_tests) : ?>
-    <h2>Raw File</h2>
-    <pre style="font-size: 11px; line-height: 1.2em; max-height: 200px; overflow: auto;"><?php print_r($file);?></pre>
+        <h2>Raw File</h2>
+        <pre style="font-size: 11px; line-height: 1.2em; max-height: 200px; overflow: auto;"><?php print_r($file);?></pre>
 
 		<h2>Notes</h2>
 		<pre style="font-size: 11px; line-height: 1.2em; max-height: 200px; overflow: auto;"><?php print_r($notes);?></pre>
@@ -369,74 +369,10 @@
 
 		<h2>Processed Notes Iteration #4 (Enumerated with Timings)</h2>
 		<pre style="font-size: 11px; line-height: 1.2em; max-height: 400px; overflow: auto;"><?php print_r($filled_distances);?></pre>
-<?php /*
-		<h1>Difficulty Relevant Array Outputs</h1>
-		<h2><?=$programmatically_derived_interval;?>s Column Distributions</h2>
+
+		<h2>Column Distributions</h2>
 		<pre style="font-size: 11px; line-height: 1.2em; max-height: 400px; overflow: auto;"><?php print_r($column_distributions_auto);?></pre>
 
-		<h2>Half Inteval Simple</h2>
-		<pre style="font-size: 11px; line-height: 1.2em; max-height: 400px; overflow: auto;"><?php print_r($removed_irrelevant_half_interval_simple);?></pre>
-        <h2>Inteval Simple</h2>
-		<pre style="font-size: 11px; line-height: 1.2em; max-height: 400px; overflow: auto;"><?php print_r($interval_simple);?></pre>
-        <h2>Double Inteval Simple</h2>
-		<pre style="font-size: 11px; line-height: 1.2em; max-height: 400px; overflow: auto;"><?php print_r($double_interval_simple);?></pre>
-
-		<h2>0.25s Column Distributions Formatted</h2>
-		<p>Format: [line] [pattern_deviation] [hand_deviation] [weighted_jack_density]</p>
-		<pre style="font-size: 11px; line-height: 1.2em; max-height: 400px; overflow: auto;"><?php foreach ($column_distributions_250ms as $num => $row) { echo "{$num}\t\t{$row['coefficient_of_variation']}\t\t\t{$row['hand_factor']}\r\n"; } ?></pre>
-
-		<h2>0.5s Column Distributions</h2>
-		<pre style="font-size: 11px; line-height: 1.2em; max-height: 400px; overflow: auto;"><?php print_r($column_distributions_500ms);?></pre>
-*/ ?>
-		<h2>1s Column Distributions</h2>
-		<pre style="font-size: 11px; line-height: 1.2em; max-height: 400px; overflow: auto;"><?php print_r($column_distributions_auto);?></pre>
-
-        <h2>Sekrit Array</h2>
-		<pre style="font-size: 11px; line-height: 1.2em; max-height: 400px; overflow: auto;"><?php print_r($interval_simple_sekrit);?></pre>
-
-        <h2>Points Per Interval</h2>
-		<pre style="font-size: 11px; line-height: 1.2em; max-height: 400px; overflow: auto;"><?php print_r($simple_points_array);?></pre>
-
-        <h2>Difficulty Per Interval</h2>
-		<pre style="font-size: 11px; line-height: 1.2em; max-height: 400px; overflow: auto;"><?php print_r($interval_simple);?></pre>
-<?php /*
-		<h2>2s Column Distributions</h2>
-		<pre style="font-size: 11px; line-height: 1.2em; max-height: 400px; overflow: auto;"><?php print_r($column_distributions_2s);?></pre>
-
-
-		<h2>Notes Per Second</h2>
-		<pre style="font-size: 11px; line-height: 1.2em; max-height: 400px; overflow: auto;"><?php print_r($nps_graph_array);?></pre>
-		<h2>Notes Per Second Distributions</h2>
-		<pre style="font-size: 11px; line-height: 1.2em; max-height: 400px; overflow: auto;"><?php print_r($nps_distributions);?></pre>
-		<h2>Upper NPS Bound</h2>
-		<pre style="font-size: 11px; line-height: 1.2em; max-height: 400px; overflow: auto;"><?=$nps_upper_bound;?></pre>
-		<h2>Relevant Distributions (Floor Round)</h2>
-		<pre style="font-size: 11px; line-height: 1.2em; max-height: 400px; overflow: auto;"><?php print_r($nps_floor_distributions);?></pre>
-		<h2>Relevant Distributions (Ceil Round)</h2>
-		<pre style="font-size: 11px; line-height: 1.2em; max-height: 400px; overflow: auto;"><?php print_r($nps_ceil_distributions);?></pre>
-		<h2>Below Relevant Distributions (Floor Round)</h2>
-		<pre style="font-size: 11px; line-height: 1.2em; max-height: 400px; overflow: auto;"><?php print_r($below_nps_floor);?></pre>
-		<h2>Below Relevant Distributions (Ceil Round)</h2>
-		<pre style="font-size: 11px; line-height: 1.2em; max-height: 400px; overflow: auto;"><?php print_r($below_nps_ceil);?></pre>
-		<h2>Above Relevant Distributions</h2>
-		<pre style="font-size: 11px; line-height: 1.2em; max-height: 400px; overflow: auto;"><?php print_r($above_nps_dist);?></pre>
-		<h2>Relative Distributions of Relevant Sections (Floor)</h2>
-		<pre style="font-size: 11px; line-height: 1.2em; max-height: 400px; overflow: auto;"><?php print_r($percentage_relevant_distributions_floor);?></pre>
-		<h2>Relative Distributions of Relevant Sections (Ceil)</h2>
-		<pre style="font-size: 11px; line-height: 1.2em; max-height: 400px; overflow: auto;"><?php print_r($percentage_relevant_distributions_ceil);?></pre>
-
-		<h2>Lengths of Relevant Sections (Floor)</h2>
-		<pre style="font-size: 11px; line-height: 1.2em; max-height: 400px; overflow: auto;"><?php print_r($difficult_section_lengths_floor);?></pre>
-
-		<h2>Lengths of Relevant Sections (Ceil)</h2>
-		<pre style="font-size: 11px; line-height: 1.2em; max-height: 400px; overflow: auto;"><?php print_r($difficult_section_lengths_ceil);?></pre>
-
-		<h2>Lengths of Trivial Sections (Ceil)</h2>
-		<pre style="font-size: 11px; line-height: 1.2em; max-height: 400px; overflow: auto;"><?php print_r($trivial_section_lengths_ceil);?></pre>
-
-		<h2>Lengths of Trivial Sections (Floor)</h2>
-		<pre style="font-size: 11px; line-height: 1.2em; max-height: 400px; overflow: auto;"><?php print_r($trivial_section_lengths_floor);?></pre>
-*/ ?>
 	<?php endif;
 ?>
 <?php if (strpos($_SERVER['HTTP_USER_AGENT'], 'Chrome') !== false) : ?>

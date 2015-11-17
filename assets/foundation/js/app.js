@@ -258,13 +258,6 @@ jQuery(document).ready(function($) {
         "order": [[ 2, "desc" ]]
     });
 
-    $("#recent-scores-table").DataTable({
-        "paging": false,
-        "autoWidth": false,
-        "searching": false,
-        "order": [[ 5, "desc" ]]
-    });
-
     $("#rank-table").DataTable({
         "paging": true,
         "pageLength": 50,

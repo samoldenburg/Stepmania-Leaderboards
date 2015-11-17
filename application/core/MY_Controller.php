@@ -1272,6 +1272,19 @@ class MY_Controller extends CI_Controller {
 		return $new_stamina_difficulties;
 	}
 
+	protected function _calculate_overall_hand_weight($column_distributions_auto) {
+		$count = 0;
+		$total_less_hand = 0;
+		$total_more_hand = 0;
+		foreach ($column_distributions_auto as $interval) {
+			$count++;
+			$total_less_hand += ($interval['left_hand_density'] <= $interval['right_hand_density']) ? $interval['left_hand_density'] : $interval['right_hand_density'];
+			$total_more_hand += ($interval['left_hand_density'] <= $interval['right_hand_density']) ? $interval['right_hand_density'] : $interval['left_hand_density'];
+		}
+		#echo pow((2 *$total_more_hand / $count), 0.25);
+		return pow((2 *$total_more_hand / $count), 0.25);
+	}
+
 	protected function _process_everything($f = null, $r = null, $user_score_goal = null) {
 		if (!empty($f) && !empty($r)) {
 			$file = trim($f);
@@ -1443,6 +1456,7 @@ class MY_Controller extends CI_Controller {
 
 		$new_stamina_difficulties = $this->_get_new_stamina_multiplier($simple_expected_difficulty_array, $calculated_difficulty_x);
 
+		$dense_hand_weight = $this->_calculate_overall_hand_weight($column_distributions_auto);
 
 		$this->data['meta'] = $meta;
 		$this->data['calculated_difficulty_no_stamina'] = $calculated_difficulty_x * (1 / $programmatically_derived_interval);
@@ -1451,7 +1465,7 @@ class MY_Controller extends CI_Controller {
 
 
 		$calculated_difficulty_with_stamina = $this->_get_expected_user_skill_result($new_stamina_difficulties, 0.93, $meta['dance_points']);
-		$this->data['calculated_difficulty'] = $calculated_difficulty_with_stamina * (1 / $programmatically_derived_interval);
+		$this->data['calculated_difficulty'] = ($calculated_difficulty_with_stamina * (1 / $programmatically_derived_interval)) * $dense_hand_weight;
 		$calculated_difficulty = $this->data['calculated_difficulty'];
 		#echo $calculated_difficulty . "<br />";
 
