@@ -53,6 +53,16 @@ class Profile extends MY_Controller {
         $this->data['user'] = $this_user;
         $this->data['subtitle'] = $this_user->display_name;
 		$this->data['scores'] = User_score::get_scores_for_user($this_user->id);
+		if (isset($_GET['recalc'])) {
+			error_reporting(E_ALL ^ E_DEPRECATED ^ E_NOTICE ^ E_WARNING);
+			set_time_limit(0);
+
+			foreach ($this->data['scores'] as $score) {
+				$chart = Ranked_file::find($score->file_id);
+				$calculated_difficulty = $this->_process_everything($chart->raw_file, $chart->rate);
+				$score->difficulty_score = $calculated_difficulty;
+			}
+		}
 		$approved_scores = User_score::get_scores_for_user_approved($this_user->id, "difficulty_score DESC");
 		$overall_leaderboard = User_score::get_overall_leaderboard();
 		$speed_leaderboard = User_score::get_speed_leaderboard();

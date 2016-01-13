@@ -24,6 +24,7 @@ class Packs extends MY_Controller {
 		else if (Pack::count(array('conditions' => array('id = ?', $id))) == 0)
 			redirect('packs');
 		else {
+
 			$this->data['pack'] = Pack::get_single_pack_info($id);
 			$this->data['subtitle'] = $this->data['pack']->name;
 			$this->data['songs'] = Ranked_file::all(
@@ -32,6 +33,15 @@ class Packs extends MY_Controller {
 					'order' => "rate ASC"
 				)
 			);
+			if (isset($_GET['recalc'])) {
+				error_reporting(E_ALL ^ E_DEPRECATED ^ E_NOTICE ^ E_WARNING);
+				set_time_limit(0);
+				foreach ($this->data['songs'] as $file) {
+			        $calculated_difficulty = $this->_process_everything($file->raw_file, $file->rate);
+					$file->difficulty_score = $calculated_difficulty;
+				}
+			}
+
 			$this->content_view = 'packs/view';
 		}
 	}
