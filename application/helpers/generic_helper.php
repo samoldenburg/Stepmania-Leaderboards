@@ -67,7 +67,7 @@ function ahrens_moving_average($input_data,	// data to be smoothed
     // array passed to this function. this loop searches for the
     // first actual datapoint in the input series.
 
-    $x_start = 1;
+    $x_start = 0;
     for ($a = $x_start; $a <= $x_end; $a++) {
         if (isset($input_data[$a]) && is_numeric($input_data[$a])) {
             $x_start = $a;

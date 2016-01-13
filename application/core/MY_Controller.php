@@ -1155,8 +1155,8 @@ class MY_Controller extends CI_Controller {
 
 		foreach ($simple_array_diff as $key => $val) {
 			$simple_array[$key] = array(
-				'expected_difficulty'  	=> $simple_array_diff[$key],
-				'dance_points'			=> $simple_array_points[$key]
+				'expected_difficulty'  	=> isset($simple_array_diff[$key]) ? $simple_array_diff[$key] : 0,
+				'dance_points'			=> isset($simple_array_points[$key]) ? $simple_array_points[$key] : 0
 			);
 		}
 
@@ -1223,7 +1223,7 @@ class MY_Controller extends CI_Controller {
 			}
 
 			$result_grade = $total_run_points / $total_dance_points;
-			#echo "RG: " . $total_run_points . " - " . $total_dance_points . "<br />";
+			#echo "RG: " . $result_grade . " - " . $total_run_points . "<br />";
 			$force_quit++;
 
 			if ($result_grade < $target_grade)
