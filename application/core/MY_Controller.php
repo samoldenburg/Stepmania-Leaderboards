@@ -172,6 +172,7 @@ class MY_Controller extends CI_Controller {
 				$total_holds += substr_count($line, "4");
 				$total_mines += substr_count($line, "M");
 				$line = str_replace("M", "0", $line);
+				$line = str_replace("L", "1", $line);
 				$line = str_replace("2", "1", $line);
 				$line = str_replace("4", "1", $line);
 				$line = str_replace("3", "0", $line);
@@ -244,6 +245,7 @@ class MY_Controller extends CI_Controller {
 		$file_starting_at_notes = array_slice($file_lines, $first_notes, $eof - $first_notes - 1);
 		foreach ($file_starting_at_notes as &$line) {
 			$line = str_replace("M", "0", $line);
+			$line = str_replace("L", "1", $line);
 			$line = str_replace("4", "2", $line);
 			$line = str_replace("3", "0", $line);
 		}
@@ -431,7 +433,7 @@ class MY_Controller extends CI_Controller {
 		if(is_array($sample)){
 			$mean = array_sum($sample) / count($sample);
 			foreach($sample as $key => $num) $devs[$key] = pow($num - $mean, 2);
-			return sqrt(array_sum($devs) / (count($devs) - 1));
+			return sqrt(array_sum($devs)) / (count($devs) - 1);
 		}
 	}
 	// this function is retarded
@@ -631,20 +633,21 @@ class MY_Controller extends CI_Controller {
 				#$current_interval['nps_factored_with_pattern_analysis'] = ($hand_factor * $hand_factor_weight) * ($anchor_index * $anchor_index_weight) * ($one_hand_index_left * $one_hand_index_weight) * ($one_hand_index_right * $one_hand_index_weight);
 
 				// hand mod strikes, adding in additional weight for jumps
-				$current_interval['left_mod_strikes'] = ($current_interval['left_hand_taps'] + ($current_interval['left_hand_jumps'] * 0.5)) * (1/(pow($current_interval['cv_left_hand'], -0.05)));
+				$current_interval['left_mod_strikes'] = ($current_interval['left_hand_taps'] + pow(($current_interval['left_hand_jumps'] * 0.5), 0.7)) * (1.1/(pow($current_interval['cv_left_hand'], -0.06)));
 				#echo $current_interval['cv_left_hand'] . "<br />";
 
-				$current_interval['right_mod_strikes'] = ($current_interval['right_hand_taps'] + ($current_interval['right_hand_jumps'] * 0.5)) * (1/(pow($current_interval['cv_right_hand'], -0.05)));
+				$current_interval['right_mod_strikes'] = ($current_interval['right_hand_taps'] + pow(($current_interval['right_hand_jumps'] * 0.5), 0.7)) * (1.1/(pow($current_interval['cv_right_hand'], -0.06)));
 				#echo $current_interval['cv_right_hand'] . "<br />";
 
 
 
 				// "if this file was evenly difficult on both hands for the whole file, taking all the hardest hands, how many strikes per second would it be"
-				$current_interval['max_mod_strikes'] = max($current_interval['left_mod_strikes'], $current_interval['right_mod_strikes']);
+				$current_interval['max_mod_strikes'] = pow(($current_interval['left_mod_strikes'] * $current_interval['right_mod_strikes'])/(($current_interval['left_mod_strikes'] + $current_interval['right_mod_strikes'])/2), 1.04);
+				$current_interval['max_mod_strikes'] += pow(abs($current_interval['left_mod_strikes'] - $current_interval['right_mod_strikes']),0.1)/($current_interval['left_mod_strikes'] + $current_interval['right_mod_strikes']);
 				$current_interval['nps_factored_with_pattern_analysis'] = $current_interval['max_mod_strikes'];
 				if (is_infinite($current_interval['nps_factored_with_pattern_analysis']))
 					$current_interval['nps_factored_with_pattern_analysis'] = 0;
-				$current_interval['expected_difficulty'] = $current_interval['max_mod_strikes'] + ($current_interval['split_hand_density'] * 0.1);
+				$current_interval['expected_difficulty'] = ($current_interval['max_mod_strikes'] + pow(($current_interval['split_hand_density'] * 0.1),0.7) + pow(pow($current_interval['weighted_jack_density'],0.04),1.04));
 
 
 
@@ -695,6 +698,8 @@ class MY_Controller extends CI_Controller {
 				$iteration_notes++;
 				if ($previous_note['left'])
 					$jack_density++;
+				if ($preprevious_note['left'])
+					$jack_density+=0.075;
 				$previous_note['left'] = true;
 				$current_timing = $current_second - $last['left'];
 				array_push($timings['left'], ($current_timing * 1000));
@@ -709,6 +714,8 @@ class MY_Controller extends CI_Controller {
 				$iteration_notes++;
 				if ($previous_note['down'])
 					$jack_density++;
+				if ($preprevious_note['down'])
+					$jack_density+=0.075;
 				$previous_note['down'] = true;
 				$current_timing = $current_second - $last['down'];
 				array_push($timings['down'], ($current_timing * 1000));
@@ -723,6 +730,8 @@ class MY_Controller extends CI_Controller {
 				$iteration_notes++;
 				if ($previous_note['up'])
 					$jack_density++;
+				if ($preprevious_note['up'])
+					$jack_density+=0.075;
 				$previous_note['up'] = true;
 				$current_timing = $current_second - $last['up'];
 				array_push($timings['up'], ($current_timing * 1000));
@@ -737,6 +746,8 @@ class MY_Controller extends CI_Controller {
 				$iteration_notes++;
 				if ($previous_note['right'])
 					$jack_density++;
+				if ($preprevious_note['right'])
+					$jack_density+=0.075;
 				$previous_note['right'] = true;
 				$current_timing = $current_second - $last['right'];
 				array_push($timings['right'], ($current_timing * 1000));
@@ -744,6 +755,10 @@ class MY_Controller extends CI_Controller {
 			} else {
 				$previous_note['right'] = false;
 			}
+			$preprevious_note['left'] = $previous_note['left'];
+			$preprevious_note['down'] = $previous_note['down'];
+			$preprevious_note['up'] = $previous_note['up'];
+			$preprevious_note['right'] = $previous_note['right'];
 			if ($noteline['tap_type'] > 0) {
 				$current_interval['taps']++;
 			}
@@ -1251,7 +1266,7 @@ class MY_Controller extends CI_Controller {
 			if ($interval['expected_difficulty'] > 0)
 				array_push($expected_difficulties_non_zero, $interval['expected_difficulty']);
 		}
-		$average_difficulties_g_zero = array_sum($expected_difficulties_non_zero) / count($expected_difficulties_non_zero);
+		$average_difficulties_g_zero = array_sum($expected_difficulties_non_zero)*1 / pow(count($expected_difficulties_non_zero),1.00002);
 		#echo $average_difficulties_g_zero . "<br />";
 
 
@@ -1260,9 +1275,9 @@ class MY_Controller extends CI_Controller {
 		$running_factor = 1;
 		foreach ($simple_expected_difficulty_array as $interval) {
 			if ($interval['expected_difficulty'] > $average_difficulties_g_zero)
-				$running_factor  *= $relevant_sections_stamina_factor;
+				$running_factor  *= pow($relevant_sections_stamina_factor,1.2);
 			else
-				$running_factor /= $trivial_sections_stamina_factor;
+				$running_factor /= pow($trivial_sections_stamina_factor,1.15);
 
 			if ($running_factor < 1)
 				$running_factor = 1;
@@ -1276,7 +1291,7 @@ class MY_Controller extends CI_Controller {
 			#echo $running_factor . "<br />";
 		}
 		// We need to normalize back down, or this value can get out of hand.
-		$running_factor = pow($running_factor, 0.175);
+		$running_factor = pow($running_factor, 0.166);
 		#echo $running_factor . "<br />";
 
 		#echo "<pre>";
@@ -1284,8 +1299,8 @@ class MY_Controller extends CI_Controller {
 		#echo "</pre>";
 
 		// Max bonus from stamina..
-		if ($running_factor > 1.20)
-			$running_factor = 1.20;
+		if ($running_factor > 1.25)
+			$running_factor = 1.25;
 		return $new_stamina_difficulties;
 	}
 
@@ -1299,8 +1314,8 @@ class MY_Controller extends CI_Controller {
 			$total_more_hand += ($interval['left_hand_density'] <= $interval['right_hand_density']) ? $interval['right_hand_density'] : $interval['left_hand_density'];
 		}
 		#echo pow((2 *$total_more_hand / $count), 0.25);
-		#return pow((2 *$total_more_hand / $count), 0.25);
-		return 1;
+		return round(pow((2 *$total_more_hand / $count), sqrt(2)/10), 1);
+		#return 1;
 	}
 
 	protected function _process_everything($f = null, $r = null, $user_score_goal = null) {
@@ -1322,7 +1337,7 @@ class MY_Controller extends CI_Controller {
 		// Some values we can tweak around as needed
 		$factor = 0.7;
 		$this->data['factor'] = $factor;
-		$interval_factor = 0.7;
+		$interval_factor = 0.75;
 		$this->data['interval_factor'] = $interval_factor;
 		$division_factor = 0.28;
 		$this->data['division_factor'] = $division_factor;
@@ -1338,7 +1353,7 @@ class MY_Controller extends CI_Controller {
 		$this->data['pattern_factor'] = $pattern_factor;
 		$stamina_factor = 0.6;
 		$this->data['stamina_factor'] = $stamina_factor;
-		$cspeed_factor = 1400;
+		$cspeed_factor = 1500;
 		$this->data['cspeed_factor'] = $cspeed_factor;
 		$arrow_pixel_offset = 400;
 		$this->data['arrow_pixel_offset'] = $arrow_pixel_offset;
@@ -1475,7 +1490,7 @@ class MY_Controller extends CI_Controller {
 
 		$new_stamina_difficulties = $this->_get_new_stamina_multiplier($simple_expected_difficulty_array, $calculated_difficulty_x);
 
-		$dense_hand_weight = $this->_calculate_overall_hand_weight($column_distributions_auto);
+		$dense_hand_weight = $this->_calculate_overall_hand_weight($column_distributions_auto)*1.05;
 
 		$this->data['meta'] = $meta;
 		$this->data['calculated_difficulty_no_stamina'] = $calculated_difficulty_x * (1 / $programmatically_derived_interval);
@@ -1491,6 +1506,6 @@ class MY_Controller extends CI_Controller {
 		$this->data['new_stamina_difficulties'] = $new_stamina_difficulties;
 
 		$this->content_view = "parser/results";
-		return $calculated_difficulty;
+		return round($calculated_difficulty * pow(($percentage_relevant_distributions_ceil/$percentage_relevant_distributions_floor),0.5),2);
 	}
 }
