@@ -64,63 +64,93 @@ class Profile extends MY_Controller {
 			}
 		}
 		$approved_scores = User_score::get_scores_for_user_approved($this_user->id, "difficulty_score DESC");
-		$overall_leaderboard = User_score::get_overall_leaderboard();
-		$speed_leaderboard = User_score::get_speed_leaderboard();
-		$jumpstream_leaderboard = User_score::get_jumpstream_leaderboard();
-		$jack_leaderboard = User_score::get_jack_leaderboard();
-		$technical_leaderboard = User_score::get_technical_leaderboard();
-		$stamina_leaderboard = User_score::get_stamina_leaderboard();
+		$overall_leaderboard = Leaderboards_cache::find(array(
+				'conditions' => array('type = ?', 1),
+				'order' => 'id desc'
+			)
+		);
+		$overall_leaderboard = (array) json_decode(base64_decode($overall_leaderboard->data));
+		$speed_leaderboard = Leaderboards_cache::find(array(
+				'conditions' => array('type = ?', 2),
+				'order' => 'id desc'
+			)
+		);
+		$speed_leaderboard = (array) json_decode(base64_decode($speed_leaderboard->data));
+		$jumpstream_leaderboard = Leaderboards_cache::find(array(
+				'conditions' => array('type = ?', 3),
+				'order' => 'id desc'
+			)
+		);
+		$jumpstream_leaderboard = (array) json_decode(base64_decode($jumpstream_leaderboard->data));
+		$jack_leaderboard = Leaderboards_cache::find(array(
+				'conditions' => array('type = ?', 4),
+				'order' => 'id desc'
+			)
+		);
+		$jack_leaderboard = (array) json_decode(base64_decode($jack_leaderboard->data));
+		$technical_leaderboard = Leaderboards_cache::find(array(
+				'conditions' => array('type = ?', 5),
+				'order' => 'id desc'
+			)
+		);
+		$technical_leaderboard = (array) json_decode(base64_decode($technical_leaderboard->data));
+		$stamina_leaderboard = Leaderboards_cache::find(array(
+				'conditions' => array('type = ?', 6),
+				'order' => 'id desc'
+			)
+		);
+		$stamina_leaderboard = (array) json_decode(base64_decode($stamina_leaderboard->data));
 
 		$i = 1;
 		foreach ($overall_leaderboard as $row) {
-			if ($row['username'] == $this_user->display_name) {
+			if ($row->username == $this_user->display_name) {
 				$this->data['overall_rank'] = $i;
-				$this->data['overall_score'] = $row['average_score'];
+				$this->data['overall_score'] = $row->average_score;
 			}
 			$i++;
 		}
 
 		$i = 1;
 		foreach ($speed_leaderboard as $row) {
-			if ($row['username'] == $this_user->display_name) {
+			if ($row->username == $this_user->display_name) {
 				$this->data['speed_rank'] = $i;
-				$this->data['speed_score'] = $row['average_score'];
+				$this->data['speed_score'] = $row->average_score;
 			}
 			$i++;
 		}
 
 		$i = 1;
 		foreach ($jumpstream_leaderboard as $row) {
-			if ($row['username'] == $this_user->display_name) {
+			if ($row->username == $this_user->display_name) {
 				$this->data['jumpstream_rank'] = $i;
-				$this->data['jumpstream_score'] = $row['average_score'];
+				$this->data['jumpstream_score'] = $row->average_score;
 			}
 			$i++;
 		}
 
 		$i = 1;
 		foreach ($jack_leaderboard as $row) {
-			if ($row['username'] == $this_user->display_name) {
+			if ($row->username == $this_user->display_name) {
 				$this->data['jack_rank'] = $i;
-				$this->data['jack_score'] = $row['average_score'];
+				$this->data['jack_score'] = $row->average_score;
 			}
 			$i++;
 		}
 
 		$i = 1;
 		foreach ($technical_leaderboard as $row) {
-			if ($row['username'] == $this_user->display_name) {
+			if ($row->username == $this_user->display_name) {
 				$this->data['technical_rank'] = $i;
-				$this->data['technical_score'] = $row['average_score'];
+				$this->data['technical_score'] = $row->average_score;
 			}
 			$i++;
 		}
 
 		$i = 1;
 		foreach ($stamina_leaderboard as $row) {
-			if ($row['username'] == $this_user->display_name) {
+			if ($row->username == $this_user->display_name) {
 				$this->data['stamina_rank'] = $i;
-				$this->data['stamina_score'] = $row['average_score'];
+				$this->data['stamina_score'] = $row->average_score;
 			}
 			$i++;
 		}
