@@ -647,7 +647,7 @@ class MY_Controller extends CI_Controller {
 				$current_interval['nps_factored_with_pattern_analysis'] = $current_interval['max_mod_strikes'];
 				if (is_infinite($current_interval['nps_factored_with_pattern_analysis']))
 					$current_interval['nps_factored_with_pattern_analysis'] = 0;
-				$current_interval['expected_difficulty'] = ($current_interval['max_mod_strikes'] + pow(($current_interval['split_hand_density'] * 0.1),0.7) + pow(pow($current_interval['weighted_jack_density'],0.04),1.04));
+				$current_interval['expected_difficulty'] = ($current_interval['max_mod_strikes'] + pow(($current_interval['split_hand_density'] * 0.05),0.7) + pow(pow($current_interval['weighted_jack_density'],0.04),1.04));
 
 
 
@@ -1166,7 +1166,7 @@ class MY_Controller extends CI_Controller {
 			array_push($simple_array_points, $val['points']);
 		}
 
-		$simple_array_diff = ahrens_moving_average($simple_array_diff, 5, count($simple_array_diff));
+		$simple_array_diff = ahrens_moving_average($simple_array_diff, 2, count($simple_array_diff));
 
 		foreach ($simple_array_diff as $key => $val) {
 			$simple_array[$key] = array(
