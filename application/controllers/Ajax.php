@@ -130,7 +130,12 @@ class Ajax extends MY_Controller {
 	}
 
 	public function get_home_leaderboard() {
-		$this->data['overall_leaderboards'] = User_score::get_overall_leaderboard();
+		$lb = Leaderboards_cache::find(array(
+				'conditions' => array('type = ?', 1),
+				'order' => 'id desc'
+			)
+		);
+		$this->data['overall_leaderboards'] = (array) json_decode(base64_decode($lb->data));
 		$this->content_view = "ajax/home_leaderboard";
 	}
 }

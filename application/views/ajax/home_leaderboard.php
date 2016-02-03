@@ -5,10 +5,10 @@
             <?=$i;?>
         </td>
         <td>
-            <a href="<?=$lb_row['profile_link'];?>"><?=$lb_row['username'];?></a>
+            <a href="<?=$lb_row->profile_link;?>"><?=$lb_row->username;?></a>
         </td>
         <td>
-            <?=number_format($lb_row['average_score'], 2);?>
+            <?=number_format($lb_row->average_score, 2);?>
         </td>
     </tr>
 <?php
