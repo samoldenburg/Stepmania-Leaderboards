@@ -39,7 +39,7 @@
             <p class="diff-display-shell">
                 <strong>Min Difficulty: </strong> <span id="min-diff-display-val">0</span>
             </p>
-            <div id="min-diff-slider" class="range-slider" data-slider data-options="start: 0; end: 40; initial: 0; step: 1; display_selector: #min-diff-display-val;">
+            <div id="min-diff-slider" class="range-slider" data-slider data-options="start: 0; end: 50; initial: 0; step: 1; display_selector: #min-diff-display-val;">
                 <span class="range-slider-handle" role="slider" tabindex="0"></span>
                 <span class="range-slider-active-segment"></span>
                 <input id="min-diff-slider-val" type="hidden">
@@ -49,7 +49,7 @@
             <p class="diff-display-shell">
                 <strong>Max Difficulty: </strong> <span id="max-diff-display-val">0</span>
             </p>
-            <div id="max-diff-slider" class="range-slider" data-slider data-options="start: 0; end: 40; initial: 40; step: 1; display_selector: #max-diff-display-val;">
+            <div id="max-diff-slider" class="range-slider" data-slider data-options="start: 0; end: 50; initial: 50; step: 1; display_selector: #max-diff-display-val;">
                 <span class="range-slider-handle" role="slider" tabindex="0"></span>
                 <span class="range-slider-active-segment"></span>
                 <input id="max-diff-slider-val" type="hidden">
