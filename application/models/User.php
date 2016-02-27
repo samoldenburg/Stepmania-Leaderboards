@@ -63,4 +63,12 @@ class User extends ActiveRecord\Model {
 		$new_meta = new Usermeta($attributes);
 		$new_meta->save();
 	}
+
+    public static function get_online_users() {
+        return User::all(array(
+                'select' => "username, display_name",
+                'conditions' => array('last_login > ?', date('Y-m-d H:i:s', time()-300))
+            )
+        );
+    }
 }

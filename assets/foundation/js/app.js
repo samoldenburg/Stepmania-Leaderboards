@@ -212,6 +212,59 @@ jQuery(document).ready(function($) {
         });
     }
 
+    if ($("#suggest-form").length) {
+        $("#file-button").click(function() {
+            $("#upload").click();
+        });
+
+        if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
+            alert('The File APIs are not fully supported in this browser.');
+            return;
+        }
+
+		$("#upload").change(function() {
+    		var file = document.getElementById("upload").files[0];
+    		if (file) {
+    		    var reader = new FileReader();
+    		    reader.readAsText(file, "UTF-8");
+    		    reader.onload = function (evt) {
+    		    	var raw = evt.target.result;
+
+    		    	$("#file").html(raw);
+
+                    var split = raw.split("\n");
+                    var title = "";
+                    var artist = "";
+                    var diff_count = 0;
+                    var diff_names = ["Beginner", "Easy", "Medium", "Hard", "Challenge", "Edit"];
+                    console.log(diff_names);
+                    for (i = 0; i < split.length; i++) {
+                        if (split[i].indexOf("#TITLE:") > -1)
+                            title = split[i].substring(7, split[i].length - 2);
+
+                        if (split[i].indexOf("#ARTIST:") > -1)
+                            artist = split[i].substring(8, split[i].length - 2);
+
+                        for (j = 0; j < diff_names.length; j++) {
+                            if (split[i].indexOf(diff_names[j]) > -1)
+                                diff_count++;
+                        }
+                    }
+                    $("#title").val(title);
+                    $("#artist").val(artist);
+
+                    if (diff_count > 1)
+                        alert("The file you entered seems to contain more than one difficulty, it would make our lives easier if you went through and removed all difficulties except the one you intend to be ranked. :)");
+
+    		    }
+    		    reader.onerror = function (evt) {
+    		    	alert("Something went wrong, try again?");
+    		    }
+
+    		}
+        });
+    }
+
     // Data tables scripts
     $("#pack-table").DataTable({
         "paging": false,

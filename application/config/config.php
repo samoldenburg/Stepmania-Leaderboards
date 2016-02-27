@@ -467,6 +467,7 @@ $config['compress_output'] = FALSE;
 |
 */
 $config['time_reference'] = 'GMT';
+date_default_timezone_set('America/Chicago');
 
 /*
 |--------------------------------------------------------------------------

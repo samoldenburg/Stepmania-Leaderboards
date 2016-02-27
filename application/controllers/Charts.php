@@ -48,6 +48,8 @@ class Charts extends MY_Controller {
 					"pack"      => $this->input->post('pack'),
 					"rate"      => $this->input->post('rate'),
 					"chart"		=> $this->input->post('chart'),
+                    "raw_file"  => $this->input->post('file'),
+                    "file_type" => $this->input->post('file_type'),
 					"user_id"   => $this->session->userdata('user_id')
                 );
                 $new_announcement = new Suggested_chart($attributes);

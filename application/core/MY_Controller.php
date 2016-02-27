@@ -13,6 +13,11 @@ class MY_Controller extends CI_Controller {
 		if ($this->session->userdata('username')) {
 			$this->data['logged_in'] = true;
 			$this->data['user_level'] = $this->session->userdata('user_level');
+
+            $now = new ActiveRecord\DateTime(date('Y-m-d H:i:s'));
+            $user = User::find($this->session->userdata('user_id'));
+            $user->last_login = $now;
+            $user->save();
 		}
 		else {
 			$this->data['logged_in'] = false;

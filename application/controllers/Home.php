@@ -23,5 +23,9 @@ class Home extends MY_Controller {
 		$this->data['streams'] = $result->streams;
 
 		$this->data['recent_scores'] = User_score::get_recent_scores();
+        $this->data['new_songs'] = Ranked_file::get_recent_files();
+        $this->data['new_packs'] = Pack::get_recent_packs();
+
+        $this->data['online_users'] = User::get_online_users();
 	}
 }

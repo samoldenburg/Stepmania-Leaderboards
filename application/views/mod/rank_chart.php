@@ -13,6 +13,6 @@
 	<label for="file">OR - Paste Full .SM File Contents Here:</label>
 	<textarea name="file" id="file" rows="20"><?php if (isset($chart)) { echo $chart->raw_file; } ?></textarea>
 	<label for="rate">Rate to judge at. e.g. 1.0, 1.1, 1.2, etc..</label>
-	<input name="rate" id="rate" type="number" step="0.1" value="1.0" style="width: 100px;" />
+	<input name="rate" id="rate" type="number" step="0.1" value="<?=(isset($rate) ? $rate : '1.0')?>" style="width: 100px;" />
 	<input class="button expand" type="submit" value="Submit" />
 </form>

@@ -22,6 +22,10 @@ class Mod extends MY_Controller {
         $this->data['subtitle'] = "Rank New Chart";
         if (intval($this->input->post('step')) == 1) {
             if ($this->form_validation->run('parser') == FALSE) {
+                if (isset($_GET['suggested_id'])) {
+                    $chart = Suggested_chart::find(intval($_GET['suggested_id']));
+                    $this->data['chart'] = $chart->raw_file;
+                }
                 $this->content_view = "mod/rank_chart";
 				$this->data['error'] = true;
             } else {
@@ -77,6 +81,13 @@ class Mod extends MY_Controller {
                 Mod::edit_chart($new_file->id);
             }
         } else {
+            if (isset($_GET['suggested_id'])) {
+                $chart = Suggested_chart::find(intval($_GET['suggested_id']));
+                $this->data['chart'] = $chart;
+            }
+            if (isset($_GET['suggested_rate'])) {
+                $this->data['rate'] = doubleval($_GET['suggested_rate']);
+            }
             $this->content_view = "mod/rank_chart";
 
         }

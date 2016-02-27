@@ -99,6 +99,114 @@
                 </table>
             </div>
         </div>
+
+        <h3 style="clear: both;">Newest Ranked Files</h3>
+        <div class="row">
+            <div class="large-12 columns">
+                <table id="recent-files-table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Song Title
+                            </th>
+                            <th>
+                                Artist
+                            </th>
+                            <th>
+                                Rate
+                            </th>
+                            <th>
+                                Difficulty
+                            </th>
+                            <th>
+                                Pack
+                            </th>
+                            <th>
+                                File Type
+                            </th>
+                            <th>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($new_songs as $song) : ?>
+                            <tr>
+                                <td>
+                                    <a href="/charts/view/<?=$song->id;?>"><?=$song->title;?></a>
+                                </td>
+                                <td>
+                                    <?=$song->artist;?>
+                                </td>
+                                <td>
+                                    <?=number_format($song->rate, 1);?>x
+                                </td>
+                                <td>
+                                    <?=number_format($song->difficulty_score, 2);?>
+                                </td>
+                                <td>
+                                    <a href="/packs/view/<?=$song->pack_id;?>"><?=$song->pack_name;?></a>  <?=(!empty($song->pack_abbr) ? "(" . $song->pack_abbr . ")" : "");?>
+                                </td>
+                                <td>
+                                    <?php
+                                        $typestring = "";
+                                        if ($song->stamina_file)
+                                            $typestring .= "Stamina, ";
+                                        $typestring .= ucwords($song->file_type);
+                                    ?>
+                                    <?=$typestring;?>
+                                </td>
+                                <td>
+                                    <?php if ($logged_in) : ?>
+                                        <span class="label primary"><a href="/scores/submit/<?=$song->id;?>">Submit Score</a></span>
+                                    <?php endif; ?>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <h3 style="clear: both;">Newest Packs</h3>
+        <div class="row">
+            <div class="large-12 columns">
+                <table id="recent-pack-table">
+                    <thead>
+                        <tr>
+                            <th>Pack Name</th>
+                            <th>Number of Ranked Files</th>
+                            <th>Average Difficulty</th>
+                            <th>Download Link</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($new_packs as $pack) : ?>
+                            <tr>
+                                <td>
+                                    <?php if ($user_level >= 2) : ?>
+                                        <span class="label warning"><a href="/mod/edit_pack/<?=$pack->id;?>">Edit</a></span>
+                                    <?php endif; ?>
+                                    <a href="/packs/view/<?=$pack->id;?>"><?=$pack->name;?></a>
+                                </td>
+                                <td>
+                                    <?=$pack->file_count;?>
+                                </td>
+                                <td>
+                                    <?php
+                                        if (!empty($pack->average))
+                                            echo number_format($pack->average, 2);
+                                    ?>
+                                </td>
+                                <td>
+                                    <i class="fi-download"></i> <a href="<?=$pack->download_link;?>" target="_blank" download>Download</a>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
         <h3 style="clear: both;">Announcements</h3>
         <?php foreach ($announcements as $announcement) : ?>
             <div class="announcement">
@@ -156,6 +264,12 @@
                 <textarea id="chat-type" name="chat-type" rows="1" placeholder="Type a message and hit enter" maxlength="1000"></textarea>
                 <input type="submit" style="display: none;" value="Send" />
             </form>
+            <div id="online-users">
+                Online Users (<?=count($online_users)?>): <br>
+                <?php foreach ($online_users as $online_user) : ?>
+                    <a href="/profile/view/<?=$online_user->username?>"><?=$online_user->display_name?></a>&nbsp;
+                <?php endforeach; ?>
+            </div>
             <script type="text/javascript">
                 jQuery(document).ready(function($) {
                     $("#chat-type").keydown(function(e) {

@@ -11,7 +11,7 @@ class Announcement extends ActiveRecord\Model {
 				'select' 	=> 'announcements.*, users.username as username, users.display_name as display_name',
 				'order' 	=> 'time desc',
 				'joins'		=> "LEFT JOIN users ON announcements.user_id = users.id",
-				'limit'		=> 5
+				'limit'		=> 3
 			)
 		);
 	}
