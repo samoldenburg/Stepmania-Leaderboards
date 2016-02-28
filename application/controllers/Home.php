@@ -27,5 +27,7 @@ class Home extends MY_Controller {
         $this->data['new_packs'] = Pack::get_recent_packs();
 
         $this->data['online_users'] = User::get_online_users();
+
+        $this->data['leaderboards'] = Leaderboards_cache::get_all_lbs();
 	}
 }

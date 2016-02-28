@@ -238,30 +238,242 @@
             </div>
         <?php endforeach; ?>
     </div>
-    <div class="large-4 columns">
+    <div class="large-4 columns" id="home-sidebar">
         <h3>Top 10</h3>
-        <table id="home-top-10">
-            <thead>
-                <tr>
-                    <th>
-                        Rank
-                    </th>
-                    <th>
-                        User
-                    </th>
-                    <th>
-                        Skill Score
-                    </th>
-                </tr>
-            </thead>
-            <tbody id="lb-content">
-                <tr>
-                    <td colspan="3">
-                        Loading...
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <div style="margin-bottom: 1.5em;">
+            <ul class="tabs" data-tab>
+                <li class="tab-title active"><a href="#panel12">Speed</a></li>
+                <li class="tab-title"><a href="#panel22">Jumpstream</a></li>
+                <li class="tab-title"><a href="#panel32">Jack</a></li>
+                <li class="tab-title"><a href="#panel42">Technical</a></li>
+                <li class="tab-title"><a href="#panel52">Stamina</a></li>
+                <li class="tab-title"><a href="#panel62">Overall</a></li>
+            </ul>
+        </div>
+        <div class="tabs-content" style="margin-bottom: 0;">
+            <div class="content active" id="panel12">
+                <table id="home-top-10-speed">
+                    <thead>
+                        <tr>
+                            <th>
+                                Rank
+                            </th>
+                            <th>
+                                User
+                            </th>
+                            <th>
+                                Skill Score
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="lb-content">
+                        <?php $i = 1; ?>
+                        <?php foreach($leaderboards['speed_leaderboards'] as $lb_row) : ?>
+                            <tr>
+                                <td>
+                                    <?=$i;?>
+                                </td>
+                                <td>
+                                    <a href="<?=$lb_row->profile_link;?>"><?=$lb_row->username;?></a>
+                                </td>
+                                <td>
+                                    <?=number_format($lb_row->average_score, 2);?>
+                                </td>
+                            </tr>
+                            <?php
+                            $i++;
+                            if ($i == 11)
+                                break;
+                        endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+            <div class="content active" id="panel22">
+                <table id="home-top-10-jumpstream">
+                    <thead>
+                        <tr>
+                            <th>
+                                Rank
+                            </th>
+                            <th>
+                                User
+                            </th>
+                            <th>
+                                Skill Score
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="lb-content">
+                        <?php $i = 1; ?>
+                        <?php foreach($leaderboards['jumpstream_leaderboards'] as $lb_row) : ?>
+                            <tr>
+                                <td>
+                                    <?=$i;?>
+                                </td>
+                                <td>
+                                    <a href="<?=$lb_row->profile_link;?>"><?=$lb_row->username;?></a>
+                                </td>
+                                <td>
+                                    <?=number_format($lb_row->average_score, 2);?>
+                                </td>
+                            </tr>
+                            <?php
+                            $i++;
+                            if ($i == 11)
+                                break;
+                        endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+            <div class="content active" id="panel32">
+                <table id="home-top-10-jack">
+                    <thead>
+                        <tr>
+                            <th>
+                                Rank
+                            </th>
+                            <th>
+                                User
+                            </th>
+                            <th>
+                                Skill Score
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="lb-content">
+                        <?php $i = 1; ?>
+                        <?php foreach($leaderboards['jack_leaderboards'] as $lb_row) : ?>
+                            <tr>
+                                <td>
+                                    <?=$i;?>
+                                </td>
+                                <td>
+                                    <a href="<?=$lb_row->profile_link;?>"><?=$lb_row->username;?></a>
+                                </td>
+                                <td>
+                                    <?=number_format($lb_row->average_score, 2);?>
+                                </td>
+                            </tr>
+                            <?php
+                            $i++;
+                            if ($i == 11)
+                                break;
+                        endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+            <div class="content active" id="panel42">
+                <table id="home-top-10-technical">
+                    <thead>
+                        <tr>
+                            <th>
+                                Rank
+                            </th>
+                            <th>
+                                User
+                            </th>
+                            <th>
+                                Skill Score
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="lb-content">
+                        <?php $i = 1; ?>
+                        <?php foreach($leaderboards['technical_leaderboards'] as $lb_row) : ?>
+                            <tr>
+                                <td>
+                                    <?=$i;?>
+                                </td>
+                                <td>
+                                    <a href="<?=$lb_row->profile_link;?>"><?=$lb_row->username;?></a>
+                                </td>
+                                <td>
+                                    <?=number_format($lb_row->average_score, 2);?>
+                                </td>
+                            </tr>
+                            <?php
+                            $i++;
+                            if ($i == 11)
+                                break;
+                        endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+            <div class="content active" id="panel52">
+                <table id="home-top-10-stamina">
+                    <thead>
+                        <tr>
+                            <th>
+                                Rank
+                            </th>
+                            <th>
+                                User
+                            </th>
+                            <th>
+                                Skill Score
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="lb-content">
+                        <?php $i = 1; ?>
+                        <?php foreach($leaderboards['stamina_leaderboards'] as $lb_row) : ?>
+                            <tr>
+                                <td>
+                                    <?=$i;?>
+                                </td>
+                                <td>
+                                    <a href="<?=$lb_row->profile_link;?>"><?=$lb_row->username;?></a>
+                                </td>
+                                <td>
+                                    <?=number_format($lb_row->average_score, 2);?>
+                                </td>
+                            </tr>
+                            <?php
+                            $i++;
+                            if ($i == 11)
+                                break;
+                        endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+            <div class="content active" id="panel62">
+                <table id="home-top-10-overall">
+                    <thead>
+                        <tr>
+                            <th>
+                                Rank
+                            </th>
+                            <th>
+                                User
+                            </th>
+                            <th>
+                                Skill Score
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="lb-content">
+                        <?php $i = 1; ?>
+                        <?php foreach($leaderboards['overall_leaderboards'] as $lb_row) : ?>
+                            <tr>
+                                <td>
+                                    <?=$i;?>
+                                </td>
+                                <td>
+                                    <a href="<?=$lb_row->profile_link;?>"><?=$lb_row->username;?></a>
+                                </td>
+                                <td>
+                                    <?=number_format($lb_row->average_score, 2);?>
+                                </td>
+                            </tr>
+                            <?php
+                            $i++;
+                            if ($i == 11)
+                                break;
+                        endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
         <p style="margin-top: -22px;font-size: 1.25rem;text-align: right;margin-bottom: 0;">
             <small><a href="/leaderboards/overall">View Full List</a></small>
         </p>

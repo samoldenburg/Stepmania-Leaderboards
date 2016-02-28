@@ -567,7 +567,13 @@ table.dataTable thead .sorting_desc_disabled {
 }
 
 // Home page leaderboard
-table#home-top-10 {
+table#home-top-10,
+table#home-top-10-speed,
+table#home-top-10-jumpstream,
+table#home-top-10-jack,
+table#home-top-10-technical,
+table#home-top-10-stamina,
+table#home-top-10-overall {
     width: 100%;
 }
 
@@ -676,4 +682,9 @@ table#pending-scores-table tr td:nth-child(1) {
 #recent-pack-table_length,
 #recent-files-table_length {
     display: none;
+}
+
+#home-sidebar li.tab-title a {
+    font-size: 0.7em;
+    padding: 0.5em 1em;
 }

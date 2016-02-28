@@ -10061,11 +10061,17 @@ table.dataTable thead .sorting_desc_disabled {
 }
 
 /* line 570, ../scss/app.scss */
-table#home-top-10 {
+table#home-top-10,
+table#home-top-10-speed,
+table#home-top-10-jumpstream,
+table#home-top-10-jack,
+table#home-top-10-technical,
+table#home-top-10-stamina,
+table#home-top-10-overall {
   width: 100%;
 }
 
-/* line 575, ../scss/app.scss */
+/* line 581, ../scss/app.scss */
 div#chat-box {
   background: rgba(0, 0, 0, 0.5);
   height: 400px;
@@ -10076,7 +10082,7 @@ div#chat-box {
   box-sizing: border-box;
 }
 
-/* line 585, ../scss/app.scss */
+/* line 591, ../scss/app.scss */
 #chat-box .chat-row .message {
   font-size: 0.8rem;
   margin-top: 0.5rem;
@@ -10084,104 +10090,110 @@ div#chat-box {
   padding-left: 1rem;
 }
 
-/* line 593, ../scss/app.scss */
+/* line 599, ../scss/app.scss */
 .datepicker table td, .datepicker table th {
   color: #333333;
 }
 
-/* line 598, ../scss/app.scss */
+/* line 604, ../scss/app.scss */
 #image-preview img {
   max-width: 800px;
   height: auto;
 }
 
-/* line 603, ../scss/app.scss */
+/* line 609, ../scss/app.scss */
 div#profile-screenshot-gallery {
   max-width: 800px;
   margin-bottom: 20px;
 }
 
-/* line 608, ../scss/app.scss */
+/* line 614, ../scss/app.scss */
 .slider.slider-nav.slick-initialized.slick-slider {
   margin-top: 20px;
 }
 
-/* line 612, ../scss/app.scss */
+/* line 618, ../scss/app.scss */
 .slick-slide {
   margin: 0 0.25rem;
   outline: none !important;
 }
 
-/* line 617, ../scss/app.scss */
+/* line 623, ../scss/app.scss */
 .slider-nav .slick-current {
   box-shadow: 0px 0px 5px #45B29D;
 }
 
-/* line 622, ../scss/app.scss */
+/* line 628, ../scss/app.scss */
 ul.tabs.vertical {
   margin-right: 1.25rem;
 }
 
-/* line 626, ../scss/app.scss */
+/* line 632, ../scss/app.scss */
 .tabs-content {
   margin-top: -1rem;
 }
 
-/* line 631, ../scss/app.scss */
+/* line 637, ../scss/app.scss */
 img.emote {
   max-height: 32px;
   vertical-align: middle;
   width: auto;
 }
 
-/* line 638, ../scss/app.scss */
+/* line 644, ../scss/app.scss */
 #suggest-table tr.added,
 #pending-scores-table tr.approved {
   background: #0e241f;
 }
 
-/* line 643, ../scss/app.scss */
+/* line 649, ../scss/app.scss */
 #suggest-table tr.rejected,
 #pending-scores-table tr.rejected {
   background: #320e09;
 }
 
-/* line 648, ../scss/app.scss */
+/* line 654, ../scss/app.scss */
 #pending-scores-table tr.below_aa {
   background: #321708;
 }
 
-/* line 652, ../scss/app.scss */
+/* line 658, ../scss/app.scss */
 table#suggest-table tr th:nth-child(8),
 table#suggest-table tr td:nth-child(8) {
   width: 16%;
 }
 
-/* line 657, ../scss/app.scss */
+/* line 663, ../scss/app.scss */
 table#pending-scores-table tr th:nth-child(1),
 table#pending-scores-table tr td:nth-child(1) {
   width: 23%;
 }
 
-/* line 662, ../scss/app.scss */
+/* line 668, ../scss/app.scss */
 .s-p {
   font-size: 0.8rem;
 }
 
-/* line 666, ../scss/app.scss */
+/* line 672, ../scss/app.scss */
 #stream-shell .columns {
   padding-left: 0;
   padding-right: 1.875rem;
 }
 
-/* line 671, ../scss/app.scss */
+/* line 677, ../scss/app.scss */
 #online-users {
   font-size: 0.8rem;
 }
 
-/* line 675, ../scss/app.scss */
+/* line 681, ../scss/app.scss */
 #recent-scores-table_length,
 #recent-pack-table_length,
 #recent-files-table_length {
   display: none;
+}
+
+/* line 687, ../scss/app.scss */
+#home-sidebar li.tab-title a {
+  font-size: 0.7em;
+  padding: 0.5em 1em;
 }
