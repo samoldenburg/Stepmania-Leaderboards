@@ -14,7 +14,7 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 	<!-- Vendor Assets -->
 	<link href='//fonts.googleapis.com/css?family=Droid+Sans:400,700|Oxygen:400,300,700&subset=latin,latin-ext' rel='stylesheet' type='text/css' />
 	<link rel="stylesheet" href="/assets/foundation/bower_components/foundation/css/normalize.css" />
-	<link rel="stylesheet" href="/assets/foundation/stylesheets/app.css?v=1.7" />
+	<link rel="stylesheet" href="/assets/foundation/stylesheets/app.css?v=1.8" />
 	<link rel="stylesheet" href="/assets/foundation/stylesheets/foundation-datepicker.min.css" />
 	<link rel="stylesheet" href="/assets/perfect-scrollbar/perfect-scrollbar.min.css" />
 	<link rel="stylesheet" href="/assets/slick/slick.css" />
@@ -161,6 +161,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 	<script src="/assets/foundation/js/foundation.reveal.js"></script>
 	<script src="/assets/foundation/js/confirm_with_reveal.min.js"></script>
 	<script src="/assets/foundation/bower_components/foundation/js/foundation/foundation.topbar.js"></script>
-	<script src="/assets/foundation/js/app.js?v=1.9"></script>
+	<script src="/assets/foundation/js/app.js?v=1.10"></script>
 </body>
 </html>
