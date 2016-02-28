@@ -240,7 +240,7 @@
     </div>
     <div class="large-4 columns" id="home-sidebar">
         <h3>Top 10</h3>
-        <div style="margin-bottom: 1.5em;">
+        <div>
             <ul class="tabs" data-tab>
                 <li class="tab-title active"><a href="#panel12">Speed</a></li>
                 <li class="tab-title"><a href="#panel22">Jumpstream</a></li>
