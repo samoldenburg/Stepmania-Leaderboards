@@ -161,6 +161,6 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 	<script src="/assets/foundation/js/foundation.reveal.js"></script>
 	<script src="/assets/foundation/js/confirm_with_reveal.min.js"></script>
 	<script src="/assets/foundation/bower_components/foundation/js/foundation/foundation.topbar.js"></script>
-	<script src="/assets/foundation/js/app.js?v=1.8"></script>
+	<script src="/assets/foundation/js/app.js?v=1.9"></script>
 </body>
 </html>
