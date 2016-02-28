@@ -12,6 +12,7 @@ class Home extends MY_Controller {
 	}
 
 	public function index(){
+        error_reporting(0);
         $this->content_view = 'home';
 		$this->data['announcements'] = Announcement::get_announcements();
 
