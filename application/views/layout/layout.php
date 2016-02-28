@@ -100,14 +100,14 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 			<!-- Left Nav Section -->
 			<ul class="left">
 				<li class="has-dropdown">
-					<a href="/leaderboards/overall">Leaderboards</a>
+					<a href="/leaderboards/speed">Leaderboards</a>
 					<ul class="dropdown">
-						<li><a href="/leaderboards/overall">Overall</a></li>
 						<li><a href="/leaderboards/speed">Speed</a></li>
 						<li><a href="/leaderboards/jumpstream">Jumpstream</a></li>
 						<li><a href="/leaderboards/jack">Jack</a></li>
 						<li><a href="/leaderboards/technical">Technical</a></li>
 						<li><a href="/leaderboards/stamina">Stamina</a></li>
+    					<li><a href="/leaderboards/overall">Overall</a></li>
 					</ul>
 				</li>
 				<li><a href="/difficulty_calculator">Difficulty Calculator</a></li>
