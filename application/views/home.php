@@ -288,7 +288,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="content active" id="panel22">
+            <div class="content" id="panel22">
                 <table id="home-top-10-jumpstream">
                     <thead>
                         <tr>
@@ -325,7 +325,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="content active" id="panel32">
+            <div class="content" id="panel32">
                 <table id="home-top-10-jack">
                     <thead>
                         <tr>
@@ -362,7 +362,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="content active" id="panel42">
+            <div class="content" id="panel42">
                 <table id="home-top-10-technical">
                     <thead>
                         <tr>
@@ -399,7 +399,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="content active" id="panel52">
+            <div class="content" id="panel52">
                 <table id="home-top-10-stamina">
                     <thead>
                         <tr>
@@ -436,7 +436,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="content active" id="panel62">
+            <div class="content" id="panel62">
                 <table id="home-top-10-overall">
                     <thead>
                         <tr>
