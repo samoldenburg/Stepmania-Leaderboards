@@ -18,192 +18,203 @@
                 <?php endfor; ?>
             </div>
         <?php endif; ?>
-        <h3 style="clear: both;">Recent Scores</h3>
-        <div class="row">
-            <div class="large-12 columns">
-                <table id="recent-scores-table">
-                    <thead>
-                        <tr>
-                            <th>
-                                User Name
-                            </th>
-                            <th>
-                                Chart
-                            </th>
-                            <th>
-                                Grade
-                            </th>
-                            <th>
-                                DP %
-                            </th>
-                            <th>
-                                Difficulty
-                            </th>
-                            <th>
-                                Date Achieved
-                            </th>
-                            <th>
-                                Screenshot
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($recent_scores as $score) : ?>
-                            <?php
-                                $max_dp_percent = calculate_dp_percent($score);
-
-                                $grade_earned = "<img src='/assets/img/c.png' />";
-                                if ($max_dp_percent > 65) {
-                                    $grade_earned = "<img src='/assets/img/b.png' />";
-                                }
-                                if ($max_dp_percent > 80) {
-                                    $grade_earned = "<img src='/assets/img/a.png' />";
-                                }
-                                if ($max_dp_percent > 93) {
-                                    $grade_earned = "<img src='/assets/img/aa.png' />";
-                                }
-                                if ($max_dp_percent == 100) {
-                                    $grade_earned = "<img src='/assets/img/aaa.png' />";
-                                }
-                                if ($max_dp_percent == 100 && $score->perfect_count == 0) {
-                                    $grade_earned = "<img src='/assets/img/aaaa.png' />";
-                                }
-
-                                $ex_oni_percent = calculate_ex_oni_percent($score);
-                            ?>
-                            <tr>
-                                <td>
-                                    <a href="/profile/view/<?=$score->username;?>"><?=$score->display_name;?></a>
-                                </td>
-                                <td>
-                                    <a href="/charts/view/<?=$score->file_id;?>"><?=$score->title;?></a>
-                                </td>
-                                <td>
-                                    <?=$grade_earned;?>
-                                </td>
-                                <td>
-                                    <?=number_format($max_dp_percent, 2);?>%
-                                </td>
-                                <td>
-                                    <?=number_format($score->difficulty_score, 2);?>
-                                </td>
-                                <td>
-                                    <?=date("m/d/Y", strtotime($score->date_achieved));?>
-                                </td>
-                                <td>
-                                    <a href="<?=$score->screenshot_url;?>" target="_blank">View</a>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
+        <h3 style="clear: both;">Recent Stuff</h3>
+        <div style="margin-bottom: 1.5em;">
+            <ul class="tabs" data-tab>
+                <li class="tab-title active"><a href="#panel11">Scores</a></li>
+                <li class="tab-title"><a href="#panel21">Ranked Files</a></li>
+                <li class="tab-title"><a href="#panel31">Packs</a></li>
+            </ul>
         </div>
-
-        <h3 style="clear: both;">Newest Ranked Files</h3>
-        <div class="row">
-            <div class="large-12 columns">
-                <table id="recent-files-table">
-                    <thead>
-                        <tr>
-                            <th>
-                                Song Title
-                            </th>
-                            <th>
-                                Artist
-                            </th>
-                            <th>
-                                Rate
-                            </th>
-                            <th>
-                                Difficulty
-                            </th>
-                            <th>
-                                Pack
-                            </th>
-                            <th>
-                                File Type
-                            </th>
-                            <th>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($new_songs as $song) : ?>
-                            <tr>
-                                <td>
-                                    <a href="/charts/view/<?=$song->id;?>"><?=$song->title;?></a>
-                                </td>
-                                <td>
-                                    <?=$song->artist;?>
-                                </td>
-                                <td>
-                                    <?=number_format($song->rate, 1);?>x
-                                </td>
-                                <td>
-                                    <?=number_format($song->difficulty_score, 2);?>
-                                </td>
-                                <td>
-                                    <a href="/packs/view/<?=$song->pack_id;?>"><?=$song->pack_name;?></a>  <?=(!empty($song->pack_abbr) ? "(" . $song->pack_abbr . ")" : "");?>
-                                </td>
-                                <td>
+        <div class="tabs-content" style="margin-bottom: 0;">
+            <div class="content active" id="panel11">
+                <div class="row">
+                    <div class="large-12 columns">
+                        <table id="recent-scores-table">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        User Name
+                                    </th>
+                                    <th>
+                                        Chart
+                                    </th>
+                                    <th>
+                                        Grade
+                                    </th>
+                                    <th>
+                                        DP %
+                                    </th>
+                                    <th>
+                                        Difficulty
+                                    </th>
+                                    <th>
+                                        Date Achieved
+                                    </th>
+                                    <th>
+                                        Screenshot
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($recent_scores as $score) : ?>
                                     <?php
-                                        $typestring = "";
-                                        if ($song->stamina_file)
-                                            $typestring .= "Stamina, ";
-                                        $typestring .= ucwords($song->file_type);
+                                        $max_dp_percent = calculate_dp_percent($score);
+
+                                        $grade_earned = "<img src='/assets/img/c.png' />";
+                                        if ($max_dp_percent > 65) {
+                                            $grade_earned = "<img src='/assets/img/b.png' />";
+                                        }
+                                        if ($max_dp_percent > 80) {
+                                            $grade_earned = "<img src='/assets/img/a.png' />";
+                                        }
+                                        if ($max_dp_percent > 93) {
+                                            $grade_earned = "<img src='/assets/img/aa.png' />";
+                                        }
+                                        if ($max_dp_percent == 100) {
+                                            $grade_earned = "<img src='/assets/img/aaa.png' />";
+                                        }
+                                        if ($max_dp_percent == 100 && $score->perfect_count == 0) {
+                                            $grade_earned = "<img src='/assets/img/aaaa.png' />";
+                                        }
+
+                                        $ex_oni_percent = calculate_ex_oni_percent($score);
                                     ?>
-                                    <?=$typestring;?>
-                                </td>
-                                <td>
-                                    <?php if ($logged_in) : ?>
-                                        <span class="label primary"><a href="/scores/submit/<?=$song->id;?>">Submit Score</a></span>
-                                    <?php endif; ?>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
+                                    <tr>
+                                        <td>
+                                            <a href="/profile/view/<?=$score->username;?>"><?=$score->display_name;?></a>
+                                        </td>
+                                        <td>
+                                            <a href="/charts/view/<?=$score->file_id;?>"><?=$score->title;?></a>
+                                        </td>
+                                        <td>
+                                            <?=$grade_earned;?>
+                                        </td>
+                                        <td>
+                                            <?=number_format($max_dp_percent, 2);?>%
+                                        </td>
+                                        <td>
+                                            <?=number_format($score->difficulty_score, 2);?>
+                                        </td>
+                                        <td>
+                                            <?=date("m/d/Y", strtotime($score->date_achieved));?>
+                                        </td>
+                                        <td>
+                                            <a href="<?=$score->screenshot_url;?>" target="_blank">View</a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
-        </div>
-
-        <h3 style="clear: both;">Newest Packs</h3>
-        <div class="row">
-            <div class="large-12 columns">
-                <table id="recent-pack-table">
-                    <thead>
-                        <tr>
-                            <th>Pack Name</th>
-                            <th>Number of Ranked Files</th>
-                            <th>Average Difficulty</th>
-                            <th>Download Link</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($new_packs as $pack) : ?>
-                            <tr>
-                                <td>
-                                    <?php if ($user_level >= 2) : ?>
-                                        <span class="label warning"><a href="/mod/edit_pack/<?=$pack->id;?>">Edit</a></span>
-                                    <?php endif; ?>
-                                    <a href="/packs/view/<?=$pack->id;?>"><?=$pack->name;?></a>
-                                </td>
-                                <td>
-                                    <?=$pack->file_count;?>
-                                </td>
-                                <td>
-                                    <?php
-                                        if (!empty($pack->average))
-                                            echo number_format($pack->average, 2);
-                                    ?>
-                                </td>
-                                <td>
-                                    <i class="fi-download"></i> <a href="<?=$pack->download_link;?>" target="_blank" download>Download</a>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
+            <div class="content" id="panel21">
+                <div class="row">
+                    <div class="large-12 columns">
+                        <table id="recent-files-table">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Song Title
+                                    </th>
+                                    <th>
+                                        Artist
+                                    </th>
+                                    <th>
+                                        Rate
+                                    </th>
+                                    <th>
+                                        Difficulty
+                                    </th>
+                                    <th>
+                                        Pack
+                                    </th>
+                                    <th>
+                                        File Type
+                                    </th>
+                                    <th>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($new_songs as $song) : ?>
+                                    <tr>
+                                        <td>
+                                            <a href="/charts/view/<?=$song->id;?>"><?=$song->title;?></a>
+                                        </td>
+                                        <td>
+                                            <?=$song->artist;?>
+                                        </td>
+                                        <td>
+                                            <?=number_format($song->rate, 1);?>x
+                                        </td>
+                                        <td>
+                                            <?=number_format($song->difficulty_score, 2);?>
+                                        </td>
+                                        <td>
+                                            <a href="/packs/view/<?=$song->pack_id;?>"><?=$song->pack_name;?></a>  <?=(!empty($song->pack_abbr) ? "(" . $song->pack_abbr . ")" : "");?>
+                                        </td>
+                                        <td>
+                                            <?php
+                                                $typestring = "";
+                                                if ($song->stamina_file)
+                                                    $typestring .= "Stamina, ";
+                                                $typestring .= ucwords($song->file_type);
+                                            ?>
+                                            <?=$typestring;?>
+                                        </td>
+                                        <td>
+                                            <?php if ($logged_in) : ?>
+                                                <span class="label primary"><a href="/scores/submit/<?=$song->id;?>">Submit Score</a></span>
+                                            <?php endif; ?>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="content" id="panel31">
+                <div class="row">
+                    <div class="large-12 columns">
+                        <table id="recent-pack-table">
+                            <thead>
+                                <tr>
+                                    <th>Pack Name</th>
+                                    <th>Number of Ranked Files</th>
+                                    <th>Average Difficulty</th>
+                                    <th>Download Link</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($new_packs as $pack) : ?>
+                                    <tr>
+                                        <td>
+                                            <?php if ($user_level >= 2) : ?>
+                                                <span class="label warning"><a href="/mod/edit_pack/<?=$pack->id;?>">Edit</a></span>
+                                            <?php endif; ?>
+                                            <a href="/packs/view/<?=$pack->id;?>"><?=$pack->name;?></a>
+                                        </td>
+                                        <td>
+                                            <?=$pack->file_count;?>
+                                        </td>
+                                        <td>
+                                            <?php
+                                                if (!empty($pack->average))
+                                                    echo number_format($pack->average, 2);
+                                            ?>
+                                        </td>
+                                        <td>
+                                            <i class="fi-download"></i> <a href="<?=$pack->download_link;?>" target="_blank" download>Download</a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
 

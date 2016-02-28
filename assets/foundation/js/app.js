@@ -329,6 +329,14 @@ jQuery(document).ready(function($) {
         "order": [[ 0, "asc"], [ 1, "asc"]]
     });
 
+    $("#recent-scores-table, #recent-files-table").DataTable({
+        "paging": true,
+        "pageLength": 10,
+        "pagingType": "four_button",
+        "autoWidth": false,
+        "searching": false,
+    });
+
     var song_table = $("#song-table").DataTable({
         "paging": true,
         "pageLength": 50,

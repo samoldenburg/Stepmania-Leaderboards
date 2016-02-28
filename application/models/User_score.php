@@ -15,7 +15,7 @@ class User_score extends ActiveRecord\Model {
                     'LEFT JOIN packs ON ranked_files.pack_id = packs.id'
                 ),
                 'order' => 'user_scores.id DESC',
-				'limit' => '10'
+				'limit' => 100
             )
         );
 	}

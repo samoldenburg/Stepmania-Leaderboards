@@ -671,3 +671,9 @@ table#pending-scores-table tr td:nth-child(1) {
 #online-users {
     font-size: 0.8rem;
 }
+
+#recent-scores-table_length,
+#recent-pack-table_length,
+#recent-files-table_length {
+    display: none;
+}

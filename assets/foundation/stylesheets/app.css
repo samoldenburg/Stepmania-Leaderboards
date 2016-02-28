@@ -10178,3 +10178,10 @@ table#pending-scores-table tr td:nth-child(1) {
 #online-users {
   font-size: 0.8rem;
 }
+
+/* line 675, ../scss/app.scss */
+#recent-scores-table_length,
+#recent-pack-table_length,
+#recent-files-table_length {
+  display: none;
+}
