@@ -335,6 +335,7 @@ jQuery(document).ready(function($) {
         "pagingType": "four_button",
         "autoWidth": false,
         "searching": false,
+        "bSort": false
     });
 
     var song_table = $("#song-table").DataTable({
