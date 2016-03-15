@@ -37,7 +37,7 @@ class Api_v1 extends MY_Controller {
         elseif ($rate < 0.5 || $rate > 2.0)
             $this->data['result'] = array('error' => 'Invalid rate provided');
         else {
-            $difficulty = $this->_process_everything($file, 1.0, null, true);
+            $difficulty = $this->_process_everything($file, $rate, null, true);
             $this->data['result'] = array(
                 'file_difficulty' => $difficulty,
                 'meta' => $this->data['meta']
