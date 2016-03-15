@@ -11,7 +11,8 @@
 <h4>Accepted POST Variables</h4>
 <div class="apiblock">
     <code>file</code> - The full file contents. Remember to urlencode.<br>
-    <code>rate</code> - Only 0.5 to 2.0 is supported.
+    <code>rate</code> - Only 0.5 to 2.0 is supported.<br>
+    <code>verbose</code> - true/false, include extra, complicated information about the file.
 </div>
 <p>
     Retrieve pretty much all information you could really want about the file, including running the difficulty calculation.
@@ -55,7 +56,7 @@
 )
 </pre>
 <p>
-    <strong>Not included in example response:</strong><br>
+    <strong>Not included in example response (verbose only):</strong><br>
     <code>column_distributions</code> - In depth analysis on each measure of the file. Good luck deciphering this.<br>
     <code>formatted</code> - A formatted set of arrays for the notes in the file. Indexes can be passed through a float2rat function to determine specific beat/sub-beat
 </p>

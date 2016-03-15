@@ -27,6 +27,8 @@ class Api_v1 extends MY_Controller {
         $this->content_view = "api/json";
         $file = $this->input->post('file');
         $rate = doubleval($this->input->post('rate'));
+        $verbose = boolval($this->input->post('verbose'));
+
         if (!$rate)
             $rate = 1.0;
 
@@ -38,10 +40,16 @@ class Api_v1 extends MY_Controller {
             $difficulty = $this->_process_everything($file, 1.0, null, true);
             $this->data['result'] = array(
                 'file_difficulty' => $difficulty,
-                'meta' => $this->data['meta'],
-                'column_distributions' => $this->data['column_distributions_auto'],
-                'formatted' => $this->data['filled_distances']
+                'meta' => $this->data['meta']
             );
+
+            if ($verbose) {
+                $this->data['result'] = array_merge($this->data['result'], array(
+                        'column_distributions' => $this->data['column_distributions_auto'],
+                        'formatted' => $this->data['filled_distances']
+                    )
+                );
+            }
         }
     }
 
