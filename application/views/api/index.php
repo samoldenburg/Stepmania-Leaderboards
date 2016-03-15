@@ -4,6 +4,10 @@
     Responses will be delivered via JSON. Use something like CURL to post data.
 </p>
 
+<p>
+    Example implementation in PHP: <a href="http://pastebin.com/vVtC12Jp" target="_blank">http://pastebin.com/vVtC12Jp</a>
+</p>
+
 <h2>Perform a Full File Parse</h2>
 <div class="apiblock">
     <span class="label">POST</span><code>http://smleaderboards.net/api/v1/parse/</code>
