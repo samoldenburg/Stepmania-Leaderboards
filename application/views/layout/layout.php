@@ -122,8 +122,9 @@ defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 					</ul>
 				</li>
 				<li class="has-dropdown">
-					<a href="#">Resources</a>
+					<a href="#">Resources <span style="position: absolute;top: 6px;left: -4px;background: rgba(255, 0, 0, 0.51);border-radius: 10px;height: 20px;padding: 0;line-height: 20px;font-size: 10px;width: 31px;text-align: center;transform: rotate(-28deg);">new</span></a>
 					<ul class="dropdown">
+                        <li><a href="/api">API</a></li>
 						<li><a href="/about">About</a></li>
 						<li><a href="/about/faq">FAQ</a></li>
 						<?php /*

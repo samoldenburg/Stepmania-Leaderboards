@@ -31,7 +31,7 @@ class API_V1 extends MY_Controller {
             $rate = 1.0;
 
         if (!$file)
-            $this->data['result'] = array('error' => $file);
+            $this->data['result'] = array('error' => 'No file was sent.');
         elseif ($rate < 0.5 || $rate > 2.0)
             $this->data['result'] = array('error' => 'Invalid rate provided');
         else {
@@ -50,7 +50,7 @@ class API_V1 extends MY_Controller {
         $file = $this->input->post('file');
 
         if (!$file)
-            $this->data['result'] = array('error' => $file);
+            $this->data['result'] = array('error' => 'No file was sent.');
         else {
             $difficulty = $this->_process_everything($file, 1.0, null, true, true);
             $this->data['result'] = $this->data['meta'];

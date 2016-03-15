@@ -52,6 +52,5 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'home';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
-$route['api/v1/parse'] = 'api_v1/parse';
-$route['api/v1/parse_meta'] = 'api_v1/parse';
+$route['api/v1/parse'] = 'api_v1/$1';
 $route['api'] = 'API';
