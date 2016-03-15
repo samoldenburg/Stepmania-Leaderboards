@@ -4,7 +4,7 @@
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class API_V1 extends MY_Controller {
+class Api_v1 extends MY_Controller {
 
     function __construct() {
         parent::__construct();
