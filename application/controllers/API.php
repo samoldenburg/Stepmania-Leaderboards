@@ -13,6 +13,7 @@ class Api extends MY_Controller {
     }
 
     public function index() {
+        $this->data['subtitle'] = "REST API";
         $this->content_view = "api/index";
     }
 }
