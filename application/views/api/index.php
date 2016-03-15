@@ -5,7 +5,7 @@
 </p>
 
 <p>
-    Example implementation in PHP: <a href="http://pastebin.com/vVtC12Jp" target="_blank">http://pastebin.com/vVtC12Jp</a>
+    Example implementation in PHP: <a href="http://pastebin.com/GECUCC55" target="_blank">http://pastebin.com/GECUCC55</a>
 </p>
 
 <h2>Perform a Full File Parse</h2>
