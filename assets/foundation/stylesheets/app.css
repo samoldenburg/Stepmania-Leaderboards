@@ -10197,3 +10197,11 @@ table#pending-scores-table tr td:nth-child(1) {
   font-size: 0.7em;
   padding: 0.5em 1em;
 }
+
+/* line 694, ../scss/app.scss */
+code {
+  color: #ccc;
+  background: rgba(0, 0, 0, 0.85);
+  border: 0;
+  padding: 0.25rem 0.5rem;
+}

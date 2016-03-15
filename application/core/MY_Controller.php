@@ -1323,7 +1323,7 @@ class MY_Controller extends CI_Controller {
 		#return 1;
 	}
 
-	protected function _process_everything($f = null, $r = null, $user_score_goal = null) {
+	protected function _process_everything($f = null, $r = null, $user_score_goal = null, $no_output = false, $meta_only = false) {
 		if (!empty($f) && !empty($r)) {
 			$file = trim($f);
 			$rate = doubleval($r);
@@ -1487,30 +1487,40 @@ class MY_Controller extends CI_Controller {
 
 		$fudge = (($percentage_relevant_distributions_floor + $percentage_relevant_distributions_ceil) / 2);
 
-		// fudge is bad, very very bad. lets do something more clever
-		// Simple array to start, may help memory load
-		$simple_expected_difficulty_array = $this->_get_simple_expected_difficulty_array($column_distributions_auto);
-		#$simple_expected_difficulty_array = ahrens_moving_average($simple_expected_difficulty_array, 5, count($simple_expected_difficulty_array));
-		$calculated_difficulty_x = $this->_get_expected_user_skill_result($simple_expected_difficulty_array, 0.93, $meta['dance_points']);
-
-		$new_stamina_difficulties = $this->_get_new_stamina_multiplier($simple_expected_difficulty_array, $calculated_difficulty_x);
-
-		$dense_hand_weight = $this->_calculate_overall_hand_weight($column_distributions_auto)*1.05;
-
-		$this->data['meta'] = $meta;
-		$this->data['calculated_difficulty_no_stamina'] = $calculated_difficulty_x * (1 / $programmatically_derived_interval);
-		$calculated_difficulty_no_stamina = $this->data['calculated_difficulty_no_stamina'];
-		#echo $calculated_difficulty_no_stamina . "<br />";
 
 
-		$calculated_difficulty_with_stamina = $this->_get_expected_user_skill_result($new_stamina_difficulties, 0.93, $meta['dance_points']);
-		$this->data['calculated_difficulty'] = ($calculated_difficulty_with_stamina * (1 / $programmatically_derived_interval)) * $dense_hand_weight;
-		$calculated_difficulty = $this->data['calculated_difficulty'];
-		#echo $calculated_difficulty . "<br />";
+        if (!$meta_only) {
+    		// fudge is bad, very very bad. lets do something more clever
+    		// Simple array to start, may help memory load
+    		$simple_expected_difficulty_array = $this->_get_simple_expected_difficulty_array($column_distributions_auto);
+    		#$simple_expected_difficulty_array = ahrens_moving_average($simple_expected_difficulty_array, 5, count($simple_expected_difficulty_array));
+    		$calculated_difficulty_x = $this->_get_expected_user_skill_result($simple_expected_difficulty_array, 0.93, $meta['dance_points']);
 
-		$this->data['new_stamina_difficulties'] = $new_stamina_difficulties;
+    		$new_stamina_difficulties = $this->_get_new_stamina_multiplier($simple_expected_difficulty_array, $calculated_difficulty_x);
 
-		$this->content_view = "parser/results";
-		return round($calculated_difficulty * pow(($percentage_relevant_distributions_ceil/$percentage_relevant_distributions_floor),0.5),2);
+    		$dense_hand_weight = $this->_calculate_overall_hand_weight($column_distributions_auto)*1.05;
+
+    		$this->data['meta'] = $meta;
+    		$this->data['calculated_difficulty_no_stamina'] = $calculated_difficulty_x * (1 / $programmatically_derived_interval);
+    		$calculated_difficulty_no_stamina = $this->data['calculated_difficulty_no_stamina'];
+    		#echo $calculated_difficulty_no_stamina . "<br />";
+
+
+    		$calculated_difficulty_with_stamina = $this->_get_expected_user_skill_result($new_stamina_difficulties, 0.93, $meta['dance_points']);
+    		$this->data['calculated_difficulty'] = ($calculated_difficulty_with_stamina * (1 / $programmatically_derived_interval)) * $dense_hand_weight;
+    		$calculated_difficulty = $this->data['calculated_difficulty'];
+    		#echo $calculated_difficulty . "<br />";
+
+    		$this->data['new_stamina_difficulties'] = $new_stamina_difficulties;
+        } else {
+            $this->data['meta'] = $meta;
+        }
+
+        if (!$no_output)
+		    $this->content_view = "parser/results";
+
+        if (!$meta_only) {
+		    return round($calculated_difficulty * pow(($percentage_relevant_distributions_ceil/$percentage_relevant_distributions_floor),0.5),2);
+        }
 	}
 }
