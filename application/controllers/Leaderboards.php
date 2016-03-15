@@ -98,9 +98,10 @@ class Leaderboards extends MY_Controller {
 		$stamina_leaderboards = User_score::get_stamina_leaderboard();
 		$lc = Leaderboards_cache::create(array('type' => 6, 'data' => base64_encode(json_encode($stamina_leaderboards))));
 
-        $old_caches = Leaderboards_cache::all(
-            'order' => 'id ASC',
-            'limit' => 6
+        $old_caches = Leaderboards_cache::all(array(
+                'order' => 'id ASC',
+                'limit' => 6
+            )
         );
 
         foreach ($old_caches as $oc) {
