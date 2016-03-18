@@ -32,10 +32,14 @@ class Api_v1 extends MY_Controller {
         if (!$rate)
             $rate = 1.0;
 
-        if (!$file)
+        if (!$file) {
+            $this->output->set_status_header(400);
             $this->data['result'] = array('error' => 'No file was sent.');
-        elseif ($rate < 0.5 || $rate > 2.0)
+        }
+        elseif ($rate < 0.5 || $rate > 2.0) {
+            $this->output->set_status_header(400);
             $this->data['result'] = array('error' => 'Invalid rate provided');
+        }
         else {
             $difficulty = $this->_process_everything($file, $rate, null, true);
             $this->data['result'] = array(
@@ -57,8 +61,10 @@ class Api_v1 extends MY_Controller {
         $this->content_view = "api/json";
         $file = $this->input->post('file');
 
-        if (!$file)
+        if (!$file) {
+            $this->output->set_status_header(400);
             $this->data['result'] = array('error' => 'No file was sent.');
+        }
         else {
             $difficulty = $this->_process_everything($file, 1.0, null, true, true);
             $this->data['result'] = $this->data['meta'];
