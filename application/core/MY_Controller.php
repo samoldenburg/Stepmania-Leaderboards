@@ -647,12 +647,12 @@ class MY_Controller extends CI_Controller {
 
 
 				// "if this file was evenly difficult on both hands for the whole file, taking all the hardest hands, how many strikes per second would it be"
-				$current_interval['max_mod_strikes'] = pow(($current_interval['left_mod_strikes'] * $current_interval['right_mod_strikes'])/(($current_interval['left_mod_strikes'] + $current_interval['right_mod_strikes'])/2), 1.04);
-				$current_interval['max_mod_strikes'] += pow(abs($current_interval['left_mod_strikes'] - $current_interval['right_mod_strikes']),0.1)/($current_interval['left_mod_strikes'] + $current_interval['right_mod_strikes']);
+				$current_interval['max_mod_strikes'] = pow(($current_interval['left_mod_strikes'] * $current_interval['right_mod_strikes'])/(($current_interval['left_mod_strikes'] + $current_interval['right_mod_strikes'])/4), 1.04);
+				$current_interval['max_mod_strikes'] += pow(abs($current_interval['left_mod_strikes']*2 - $current_interval['right_mod_strikes']*2),0.1)/(($current_interval['left_mod_strikes'] + $current_interval['right_mod_strikes'])*2);
 				$current_interval['nps_factored_with_pattern_analysis'] = $current_interval['max_mod_strikes'];
 				if (is_infinite($current_interval['nps_factored_with_pattern_analysis']))
 					$current_interval['nps_factored_with_pattern_analysis'] = 0;
-				$current_interval['expected_difficulty'] = ($current_interval['max_mod_strikes'] + pow(($current_interval['split_hand_density'] * 0.05),0.7) + pow(pow($current_interval['weighted_jack_density'],0.04),1.04));
+				$current_interval['expected_difficulty'] = ($current_interval['max_mod_strikes'] + pow(($current_interval['split_hand_density'] * 0.05),0.666) + pow(pow($current_interval['weighted_jack_density'],0.04),1.02));
 
 
 
@@ -704,7 +704,7 @@ class MY_Controller extends CI_Controller {
 				if ($previous_note['left'])
 					$jack_density++;
 				if ($preprevious_note['left'])
-					$jack_density+=0.075;
+					$jack_density+=0.05;
 				$previous_note['left'] = true;
 				$current_timing = $current_second - $last['left'];
 				array_push($timings['left'], ($current_timing * 1000));
@@ -720,7 +720,7 @@ class MY_Controller extends CI_Controller {
 				if ($previous_note['down'])
 					$jack_density++;
 				if ($preprevious_note['down'])
-					$jack_density+=0.075;
+					$jack_density+=0.05;
 				$previous_note['down'] = true;
 				$current_timing = $current_second - $last['down'];
 				array_push($timings['down'], ($current_timing * 1000));
@@ -736,7 +736,7 @@ class MY_Controller extends CI_Controller {
 				if ($previous_note['up'])
 					$jack_density++;
 				if ($preprevious_note['up'])
-					$jack_density+=0.075;
+					$jack_density+=0.05;
 				$previous_note['up'] = true;
 				$current_timing = $current_second - $last['up'];
 				array_push($timings['up'], ($current_timing * 1000));
@@ -752,7 +752,7 @@ class MY_Controller extends CI_Controller {
 				if ($previous_note['right'])
 					$jack_density++;
 				if ($preprevious_note['right'])
-					$jack_density+=0.075;
+					$jack_density+=0.05;
 				$previous_note['right'] = true;
 				$current_timing = $current_second - $last['right'];
 				array_push($timings['right'], ($current_timing * 1000));
