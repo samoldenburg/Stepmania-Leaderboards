@@ -62,20 +62,26 @@
                                         $max_dp_percent = calculate_dp_percent($score);
 
                                         $grade_earned = "<img src='/assets/img/c.png' />";
+                                        $gradesort = 0;
                                         if ($max_dp_percent > 65) {
                                             $grade_earned = "<img src='/assets/img/b.png' />";
+                                            $gradesort = 1;
                                         }
                                         if ($max_dp_percent > 80) {
                                             $grade_earned = "<img src='/assets/img/a.png' />";
+                                            $gradesort = 2;
                                         }
                                         if ($max_dp_percent > 93) {
                                             $grade_earned = "<img src='/assets/img/aa.png' />";
+                                            $gradesort = 3;
                                         }
                                         if ($max_dp_percent == 100) {
                                             $grade_earned = "<img src='/assets/img/aaa.png' />";
+                                            $gradesort = 4;
                                         }
                                         if ($max_dp_percent == 100 && $score->perfect_count == 0) {
                                             $grade_earned = "<img src='/assets/img/aaaa.png' />";
+                                            $gradesort = 5;
                                         }
 
                                         $ex_oni_percent = calculate_ex_oni_percent($score);
@@ -87,7 +93,7 @@
                                         <td>
                                             <a href="/charts/view/<?=$score->file_id;?>"><?=$score->title;?></a>
                                         </td>
-                                        <td>
+                                        <td data-order="<?=$gradesort?>">
                                             <?=$grade_earned;?>
                                         </td>
                                         <td>
